@@ -1,4 +1,6 @@
 package com.cs160.fall13.MeatUp;
 
-public class HelloWorld {
+import android.support.v7.app.ActionBarActivity;
+
+public class HelloWorld extends ActionBarActivity {
 }
