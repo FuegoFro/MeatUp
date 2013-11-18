@@ -22,6 +22,7 @@ import android.widget.ListView;
 
 // This code is taken straight from an example on the Android Docs
 // http://developer.android.com/guide/components/loaders.html#example
+// Minor modifications were made to make it work with on Gingerbread
 public class SearchForFriendsFragment extends ListFragment
         implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -38,12 +39,13 @@ public class SearchForFriendsFragment extends ListFragment
         ListView lv = getListView();
         lv.setSelector(R.drawable.abc_list_selector_holo_light);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lv.setFastScrollEnabled(true);
 //        lv.setOnItemClickListener();
 //        lv.setMultiChoiceModeListener(new ModeCallback());
 
         // Give some text to display if there is no data.  In a real
         // application this would come from a resource.
-        setEmptyText("No phone numbers");
+        setEmptyText("Retrieving Contacts");
 
         // We have a menu item to show in action bar.
         setHasOptionsMenu(true);
@@ -150,6 +152,7 @@ public class SearchForFriendsFragment extends ListFragment
         // Swap the new cursor in.  (The framework will take care of closing the
         // old cursor once we return.)
         adapter.swapCursor(data);
+        setEmptyText("No contacts found");
     }
 
     public void onLoaderReset(Loader<Cursor> loader) {
