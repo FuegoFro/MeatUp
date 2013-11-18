@@ -5,8 +5,8 @@
                                                android:layout_width="match_parent"
                                                android:layout_height="match_parent"
                                                android:padding="10dp"
+                                               android:background="@drawable/add_friend_background"
         >
-            <!--android:layout_height="?android:attr/listPreferredItemHeightSmall"-->
 
     <CheckedTextView
             android:id="@id/android:text1"
