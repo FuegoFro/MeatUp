@@ -36,5 +36,24 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainTabsActivity"/>
         </activity>
+        <activity
+                android:name=".NewLunchActivity"
+                android:label="New Lunch"
+                android:parentActivityName=".MainTabsActivity"
+                >
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainTabsActivity"/>
+        </activity>
+
+        <activity
+                android:name=".GetRecommendationActivity"
+                android:label="Recommend a Restaurant"
+                android:parentActivityName=".NewLunchActivity"
+                >
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".NewLunchActivity"/>
+        </activity>
     </application>
 </manifest>

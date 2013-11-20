@@ -1,5 +1,6 @@
 package com.cs160.fall13.MeatUp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,8 +27,14 @@ public class NearbyFriendsFragment extends Fragment {
         friendsList.setAdapter(new NearbyFriendsAdapter(friends));
         friendsList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 
-        final View inviteButton = root.findViewById(R.id.create_invite_button);
+        final Button inviteButton = (Button) root.findViewById(R.id.create_invite_button);
 
+        inviteButton.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View v) {
+               Intent newLunchIntent = new Intent(getActivity(), NewLunchActivity.class);
+               startActivity(newLunchIntent);
+           }
+        });
 
         friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
