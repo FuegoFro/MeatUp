@@ -3,10 +3,13 @@ package com.cs160.fall13.MeatUp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
+import java.util.ArrayList;
 
 public class NearbyFriendsFragment extends Fragment {
     @Override
@@ -31,7 +34,18 @@ public class NearbyFriendsFragment extends Fragment {
 
         inviteButton.setOnClickListener(new View.OnClickListener() {
            public void onClick(View v) {
+
+               SparseBooleanArray checkedItems = friendsList.getCheckedItemPositions();
+               ArrayList<String> invitedFriends = new ArrayList<String>();
+               NearbyFriend temp;
+               for (int i = 0; i < friendsList.getAdapter().getCount(); i++) {
+                   if (checkedItems.get(i)) {
+                       temp = (NearbyFriend) friendsList.getItemAtPosition(i);
+                       invitedFriends.add(temp.getName());
+                   }
+               }
                Intent newLunchIntent = new Intent(getActivity(), NewLunchActivity.class);
+               newLunchIntent.putExtra("invitedFriendsArray", invitedFriends);
                startActivity(newLunchIntent);
            }
         });

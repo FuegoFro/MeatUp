@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.TextView;
-import android.widget.TimePicker;
+import android.view.ViewGroup;
+import android.widget.*;
+
+import java.util.ArrayList;
 
 public class NewLunchActivity extends ActionBarActivity {
 
@@ -21,13 +22,15 @@ public class NewLunchActivity extends ActionBarActivity {
     Integer hour,minute,month,day,year;
     TextView time,date;
     Button getRec;
-
+    ListView invitedFriendsView;
+    static ArrayList<String> friendsNames;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_lunch);
         Log.d("newlunchativity", "here");
-
+        Intent prevIntent = getIntent();
+        friendsNames = new ArrayList<String>(prevIntent.getStringArrayListExtra("invitedFriendsArray"));
         select = (Button)findViewById(R.id.btnSelect);
         time = (TextView)findViewById(R.id.textTime);
         date = (TextView)findViewById(R.id.textDate);
@@ -54,8 +57,9 @@ public class NewLunchActivity extends ActionBarActivity {
                         hour = timep.getCurrentHour();
                         minute = timep.getCurrentMinute();
                         time.setText("Time is "+hour+":" +minute);
-
-                        date.setText("The date is "+day+"/"+month+"/"+year);
+                        time.setVisibility(View.VISIBLE);
+                        date.setText("The date is " + day + "/" + month + "/" + year);
+                        date.setVisibility(View.VISIBLE);
                         picker.dismiss();
                     }
                 });
@@ -71,6 +75,39 @@ public class NewLunchActivity extends ActionBarActivity {
                 startActivity(recommendationIntent);
             }
         });
+
+        invitedFriendsView = (ListView) findViewById(R.id.invitedFriendsList);
+        // stupid java, you cant cast Object[] to String[] so, you have to make a stupid temp variable.
+        String[] names = new String[friendsNames.size()];
+        names = (String[]) friendsNames.toArray(names);
+        invitedFriendsView.setAdapter(new InvitedFriendsAdapter(names));
+
+    }
+
+    private class InvitedFriendsAdapter extends ArrayAdapter<String> {
+
+        private final LayoutInflater inflater;
+        private static final int RESOURCE = R.layout.invited_friends;
+
+        public InvitedFriendsAdapter(String[] objects) {
+            super(getApplicationContext(), RESOURCE, objects);
+            inflater = getLayoutInflater();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view;
+
+            if (convertView == null) {
+                view = inflater.inflate(RESOURCE, parent, false);
+            } else {
+                view = convertView;
+            }
+            TextView name = (TextView) view.findViewById(R.id.invitedFriend);
+            name.setText(getItem(position));
+
+            return view;
+        }
     }
 
 
