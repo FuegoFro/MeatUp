@@ -1,0 +1,4 @@
+* How to handle google api key on vcs?
+** necessary certs? https://developers.google.com/maps/documentation/android/start#get_an_android_certificate_and_the_google_maps_api_key
+
+* I think the api is set up correctly but I can't seem to get it to work with the standard emulator -- some googling indicates that the genymotion emulator may be the ticket -- to the batcave!
