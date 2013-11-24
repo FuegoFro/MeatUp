@@ -5,18 +5,17 @@ package com.cs160.fall13.MeatUp;
  * User: cjrd
  * Date: 11/24/13
  * Time: 3:38 PM
- * To change this template use File | Settings | File Templates.
  */
 public class Restaurant {
 
     private String title;
     private double lat,
-                   lon;
+                   lon,
+                   rating;
     private boolean isVegatarian;
     private boolean isVegan;
-    private int rating;
 
-    public Restaurant(String title, double lat, double lon, boolean vegatarian, boolean vegan, int rating) {
+    public Restaurant(String title, double lat, double lon, boolean vegatarian, boolean vegan, double rating) {
         this.title = title;
         this.lat = lat;
         this.lon = lon;
@@ -65,11 +64,11 @@ public class Restaurant {
         isVegan = vegan;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }

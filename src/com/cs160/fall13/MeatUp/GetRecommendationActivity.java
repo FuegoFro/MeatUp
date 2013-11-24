@@ -9,5 +9,10 @@ public class GetRecommendationActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.get_recommendation);
+
+        Restaurant[] restaurants = {
+                new Restaurant( "test", 1000, 1000, false, false, 4)
+
+        };
     }
 }
