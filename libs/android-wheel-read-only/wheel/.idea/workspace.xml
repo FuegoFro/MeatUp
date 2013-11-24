@@ -45,9 +45,9 @@
     <file path="$PROJECT_DIR$/../../../res/layout/new_lunch.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385328242223" ignored="false" />
     <file path="$PROJECT_DIR$/../../../res/layout/wheel_item_time.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385329078839" ignored="false" />
     <file path="$PROJECT_DIR$/../../../src/com/cs160/fall13/MeatUp/DayWheelAdaptor.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385331522802" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../AndroidManifest.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385332536596" ignored="false" />
-    <file path="/AndroidManifest.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385332534615" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../gen/com/cs160/fall13/MeatUp/R.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385332537357" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../AndroidManifest.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385333678197" ignored="false" />
+    <file path="/AndroidManifest.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385333580447" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../gen/com/cs160/fall13/MeatUp/R.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385333680734" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
