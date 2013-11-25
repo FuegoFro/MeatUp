@@ -1,12 +1,14 @@
 package com.cs160.fall13.MeatUp;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: cjrd
  * Date: 11/24/13
  * Time: 3:38 PM
  */
-public class Restaurant {
+public class Restaurant implements Serializable {
 
     private String title;
     private double lat,

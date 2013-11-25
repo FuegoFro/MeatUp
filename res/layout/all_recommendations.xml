@@ -1,8 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        >
 
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-           android:id="@+id/allRecs"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent">
+    <ImageView
+            android:id="@+id/previous_suggestion_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_previous_item"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="Previous Item"
+            android:padding="16dp"
+            />
 
-</android.support.v4.view.ViewPager>
+    <ImageView
+            android:id="@+id/next_suggestion_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_next_item"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="Next Item"
+            android:padding="16dp"
+            />
+
+    <Button
+            android:id="@+id/select_restaurant_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Restaurant"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_toLeftOf="@id/next_suggestion_button"
+            android:layout_toRightOf="@id/previous_suggestion_button"
+            />
+
+
+    <android.support.v4.view.ViewPager
+            android:id="@+id/all_recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/select_restaurant_button"
+            />
+
+</RelativeLayout>
+
