@@ -2,6 +2,11 @@ package com.cs160.fall13.MeatUp;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class GetRecommendationActivity extends ActionBarActivity {
 
@@ -27,5 +32,20 @@ public class GetRecommendationActivity extends ActionBarActivity {
                 new Restaurant("Cafe Strada", 37.8692854,-122.2546207,true, true, 4),
                 new Restaurant("Thallasa", 37.86635,-122.267166, true, true, 4)
         };
+
+
+            // Get a handle to the Map Fragment
+            GoogleMap map = ((MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.map)).getMap();
+
+            LatLng jupiter = new LatLng(37.86984,-122.267491);
+
+            map.setMyLocationEnabled(true);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(jupiter, 13));
+
+            map.addMarker(new MarkerOptions()
+                    .title("The Jupiter")
+                    .snippet("Yummy yummy")
+                    .position(jupiter));
     }
 }
