@@ -7,19 +7,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import android.view.View;
 
 public class GetRecommendationActivity extends FragmentActivity {
 
     private static final int NUM_PAGES = 5;
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
+    private ViewPager pager;
     private Restaurant[] restaurants = {
                 new Restaurant( "La Val's", 37.8755322, -122.2603641, true, true, 4),
                 new Restaurant("The Cheese Board", 37.8799915, -122.2694861, true, true, 4.5),
@@ -37,49 +30,94 @@ public class GetRecommendationActivity extends FragmentActivity {
                 new Restaurant("Cafe Strada", 37.8692854,-122.2546207,true, true, 4),
                 new Restaurant("Thallasa", 37.86635,-122.267166, true, true, 4)
         };
-
-
-
+    private View previousSuggestionButton;
+    private View nextSuggestionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_recommendations);
 
-        mPager = (ViewPager) findViewById(R.id.allRecs);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        pager = (ViewPager) findViewById(R.id.all_recommendations);
+        final PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(pagerAdapter);
 
-        // Get a handle to the Map Fragment
-        //GoogleMap map = ((SupportMapFragment) getSupportFragmentManager()
-        //        .findFragmentById(R.id.map)).getMap();
-//        FragmentManager supportFragmentManager = getSupportFragmentManager();
-//        Fragment fragmentById = supportFragmentManager.findFragmentById(R.id.map);
-//        GoogleMap map = ((SupportMapFragment)fragmentById).getMap();
-//
-//
-//        LatLng jupiter = new LatLng(37.86984,-122.267491);
-//
-//
-//        map.setMyLocationEnabled(true);
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(jupiter, 13));
-//
-//        map.addMarker(new MarkerOptions()
-//                .title("The Jupiter")
-//                .snippet("Yummy yummy")
-//                .position(jupiter));
+        previousSuggestionButton = findViewById(R.id.previous_suggestion_button);
+        nextSuggestionButton = findViewById(R.id.next_suggestion_button);
 
+        // Initializing at the beginning of the list of restaurants, hide the previous button
+        previousSuggestionButton.setVisibility(View.INVISIBLE);
+
+        previousSuggestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int nextItem = pager.getCurrentItem() - 1;
+                if (nextItem >= 0) {
+                    pager.setCurrentItem(nextItem);
+                }
+                if (nextItem < pagerAdapter.getCount() - 1) {
+                    // Re-enable next button
+                    nextSuggestionButton.setVisibility(View.VISIBLE);
+                }
+                if (nextItem <= 0) {
+                    // Disable previous button
+                    previousSuggestionButton.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        nextSuggestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int count = pagerAdapter.getCount();
+                int nextItem = pager.getCurrentItem() + 1;
+                if (nextItem < count) {
+                    pager.setCurrentItem(nextItem);
+                }
+                if (nextItem > 0) {
+                    // Re-enable previous button
+                    previousSuggestionButton.setVisibility(View.VISIBLE);
+                }
+                if (nextItem >= count - 1) {
+                    // Disable next button
+                    nextSuggestionButton.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (i == 0) {
+                    previousSuggestionButton.setVisibility(View.INVISIBLE);
+                } else {
+                    previousSuggestionButton.setVisibility(View.VISIBLE);
+                }
+                if (i == pagerAdapter.getCount() - 1) {
+                    nextSuggestionButton.setVisibility(View.INVISIBLE);
+                } else {
+                    nextSuggestionButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
+        if (pager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+            pager.setCurrentItem(pager.getCurrentItem() - 1);
         }
     }
 
@@ -91,7 +129,7 @@ public class GetRecommendationActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             RecommendationFragment recommendationFragment = new RecommendationFragment();
-            recommendationFragment.setInfo(restaurants[position]);
+            recommendationFragment.setRestaurant(restaurants[position]);
             return recommendationFragment;
         }
 
@@ -99,5 +137,9 @@ public class GetRecommendationActivity extends FragmentActivity {
         public int getCount() {
             return NUM_PAGES;
         }
+    }
+
+    private class ButtonUpdater extends ViewPager.SimpleOnPageChangeListener {
+
     }
 }

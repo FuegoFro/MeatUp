@@ -37,7 +37,7 @@ public class SearchForFriendsFragment extends ListFragment
         super.onActivityCreated(savedInstanceState);
 
         ListView lv = getListView();
-        lv.setSelector(R.drawable.abc_list_selector_holo_light);
+        lv.setSelector(R.drawable.abc_list_selector_holo_dark);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lv.setFastScrollEnabled(true);
 //        lv.setOnItemClickListener();
