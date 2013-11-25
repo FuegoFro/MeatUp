@@ -14,18 +14,7 @@ public class GetRecommendationActivity extends FragmentActivity {
     private static final int NUM_PAGES = 5;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.all_recommendations);
-
-        mPager = (ViewPager) findViewById(R.id.allRecs);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-
-        Restaurant[] restaurants = {
+    private Restaurant[] restaurants = {
                 new Restaurant( "La Val's", 37.8755322, -122.2603641, true, true, 4),
                 new Restaurant("The Cheese Board", 37.8799915, -122.2694861, true, true, 4.5),
                 new Restaurant("Herbivore", 37.864683,-122.266847, true, true, 3.5),
@@ -42,6 +31,16 @@ public class GetRecommendationActivity extends FragmentActivity {
                 new Restaurant("Cafe Strada", 37.8692854,-122.2546207,true, true, 4),
                 new Restaurant("Thallasa", 37.86635,-122.267166, true, true, 4)
         };
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.all_recommendations);
+
+        mPager = (ViewPager) findViewById(R.id.allRecs);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
     }
 
     @Override
@@ -63,7 +62,9 @@ public class GetRecommendationActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new RecommendationFragment();
+            RecommendationFragment recommendationFragment = new RecommendationFragment();
+            recommendationFragment.setInfo(restaurants[position]);
+            return recommendationFragment;
         }
 
         @Override
