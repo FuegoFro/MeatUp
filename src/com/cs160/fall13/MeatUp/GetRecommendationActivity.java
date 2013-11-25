@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -50,19 +51,23 @@ public class GetRecommendationActivity extends FragmentActivity {
         mPager.setAdapter(mPagerAdapter);
 
         // Get a handle to the Map Fragment
-        GoogleMap map = ((MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map)).getMap();
-
-
-        LatLng jupiter = new LatLng(37.86984,-122.267491);
-
-        map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(jupiter, 13));
-
-        map.addMarker(new MarkerOptions()
-                .title("The Jupiter")
-                .snippet("Yummy yummy")
-                .position(jupiter));
+        //GoogleMap map = ((SupportMapFragment) getSupportFragmentManager()
+        //        .findFragmentById(R.id.map)).getMap();
+//        FragmentManager supportFragmentManager = getSupportFragmentManager();
+//        Fragment fragmentById = supportFragmentManager.findFragmentById(R.id.map);
+//        GoogleMap map = ((SupportMapFragment)fragmentById).getMap();
+//
+//
+//        LatLng jupiter = new LatLng(37.86984,-122.267491);
+//
+//
+//        map.setMyLocationEnabled(true);
+//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(jupiter, 13));
+//
+//        map.addMarker(new MarkerOptions()
+//                .title("The Jupiter")
+//                .snippet("Yummy yummy")
+//                .position(jupiter));
 
     }
 
