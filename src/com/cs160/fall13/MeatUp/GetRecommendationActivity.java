@@ -40,6 +40,7 @@ public class GetRecommendationActivity extends ActionBarActivity {
 
             LatLng jupiter = new LatLng(37.86984,-122.267491);
 
+
             map.setMyLocationEnabled(true);
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(jupiter, 13));
 

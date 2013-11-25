@@ -6,25 +6,25 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="ab79a82f-016d-4e28-9c76-287cf4bd5363" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AbstractWheelAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AbstractWheelAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AbstractWheelTextAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AbstractWheelTextAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AdapterWheel.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AdapterWheel.java" />
+    <list default="true" id="ab79a82f-016d-4e28-9c76-287cf4bd5363" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/wheel_val.xml" afterPath="$PROJECT_DIR$/res/drawable/wheel_val.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/WheelViewAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/WheelViewAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/ItemsRange.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/ItemsRange.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelView.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelRecycle.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelRecycle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/ArrayWheelAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/ArrayWheelAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/ItemsRange.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/ItemsRange.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/NumericWheelAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/NumericWheelAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelChangedListener.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelChangedListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelClickedListener.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelClickedListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelScrollListener.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelScrollListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/kankan/wheel/R.java" afterPath="$PROJECT_DIR$/gen/kankan/wheel/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelRecycle.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelRecycle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AbstractWheelAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AbstractWheelAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AdapterWheel.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AdapterWheel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/NumericWheelAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/NumericWheelAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelScroller.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelScroller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelView.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/WheelViewAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/WheelViewAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/wheel_bg.xml" afterPath="$PROJECT_DIR$/res/drawable/wheel_bg.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/drawable/wheel_val.xml" afterPath="$PROJECT_DIR$/res/drawable/wheel_val.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelClickedListener.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelClickedListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AbstractWheelTextAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/adapters/AbstractWheelTextAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/kankan/wheel/R.java" afterPath="$PROJECT_DIR$/gen/kankan/wheel/R.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelChangedListener.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/OnWheelChangedListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelAdapter.java" afterPath="$PROJECT_DIR$/src/kankan/wheel/widget/WheelAdapter.java" />
     </list>
     <ignored path="wheel.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,14 +32,9 @@
     <file path="$PROJECT_DIR$/../../../src/com/cs160/fall13/MeatUp/NewLunchActivity.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385331863422" ignored="false" />
     <file path="/NewLunchActivity.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385329029632" ignored="false" />
     <file path="$PROJECT_DIR$/../../google-play-services_lib/project.properties" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385324421911" ignored="false" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385324851226" ignored="false" />
-    <file path="$PROJECT_DIR$/wheel.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385324625628" ignored="false" />
-    <file path="$PROJECT_DIR$/res/layout/main.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385325496111" ignored="false" />
-    <file path="$PROJECT_DIR$/module_wheel.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385324573419" ignored="false" />
-    <file path="$PROJECT_DIR$/build.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385325496111" ignored="false" />
-    <file path="$PROJECT_DIR$/bin/AndroidManifest.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385324573419" ignored="false" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385324851196" ignored="false" />
+    <file path="$PROJECT_DIR$/res/layout/main.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385325496422" ignored="false" />
     <file path="/Dummy.txt" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385329071041" ignored="false" />
-    <file path="$PROJECT_DIR$/wheel.iml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385324636763" ignored="false" />
     <file path="$PROJECT_DIR$/../../../res/layout/wheel_text_item.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385327671879" ignored="false" />
     <file path="$PROJECT_DIR$/../../../res/layout/time2_day.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385327773219" ignored="false" />
     <file path="$PROJECT_DIR$/../../../res/layout/new_lunch.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385328242223" ignored="false" />
@@ -47,11 +42,12 @@
     <file path="$PROJECT_DIR$/../../../src/com/cs160/fall13/MeatUp/DayWheelAdaptor.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385331522802" ignored="false" />
     <file path="$PROJECT_DIR$/../../../AndroidManifest.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385333678197" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385333580447" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../gen/com/cs160/fall13/MeatUp/R.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385333680734" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../gen/com/cs160/fall13/MeatUp/R.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385333680744" ignored="false" />
     <file path="$PROJECT_DIR$/../../../src/com/cs160/fall13/MeatUp/Restaurant.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385337011520" ignored="false" />
-    <file path="/Restaurant.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385337011095" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../src/com/cs160/fall13/MeatUp/GetRecommendationActivity.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385339883171" ignored="false" />
+    <file path="/Restaurant.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385337011096" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../src/com/cs160/fall13/MeatUp/GetRecommendationActivity.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385340494455" ignored="false" />
     <file path="/GetRecommendationActivity.java" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385339861523" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../res/layout/get_recommendation.xml" changelist="ab79a82f-016d-4e28-9c76-287cf4bd5363" time="1385340494455" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,10 +127,10 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="0" />
+    <option name="STATE" value="2" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="PackagesPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -146,32 +142,44 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="wheelproj" />
+              <option name="myItemId" value="wheel" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="com.genymobile.genymotion.ide.idea.GdmSettings" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="options.lastSelected" value="com.genymobile.genymotion.ide.idea.GdmSettings" />
+    <property name="recentsLimit" value="5" />
+    <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
+    <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="wheel" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="RunManager" selected="Android Tests.wheel">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -333,10 +341,6 @@
           <option name="myVcsRoot" value="$PROJECT_DIR$" />
           <option name="myCopyRoot" value="$PROJECT_DIR$" />
         </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="$PROJECT_DIR$" />
-          <option name="myCopyRoot" value="$PROJECT_DIR$/bin/classes" />
-        </SvnCopyRootSimple>
       </list>
     </option>
     <option name="myMoreRealMappingRoots">
@@ -344,10 +348,6 @@
         <SvnCopyRootSimple>
           <option name="myVcsRoot" value="$PROJECT_DIR$" />
           <option name="myCopyRoot" value="$PROJECT_DIR$" />
-        </SvnCopyRootSimple>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="$PROJECT_DIR$" />
-          <option name="myCopyRoot" value="$PROJECT_DIR$/bin/classes" />
         </SvnCopyRootSimple>
       </list>
     </option>
@@ -362,7 +362,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1276" height="778" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -372,17 +372,17 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2495935" sideWeight="0.67021275" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2495935" sideWeight="0.67021275" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -419,7 +419,7 @@
     <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
-    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="false" />
     <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
     <option name="LIMIT_HISTORY" value="true" />
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
