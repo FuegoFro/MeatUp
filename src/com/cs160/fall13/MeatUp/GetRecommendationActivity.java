@@ -53,8 +53,8 @@ public class GetRecommendationActivity extends FragmentActivity {
         GoogleMap map = ((MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map)).getMap();
 
-        LatLng jupiter = new LatLng(37.86984,-122.267491);
 
+        LatLng jupiter = new LatLng(37.86984,-122.267491);
 
         map.setMyLocationEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(jupiter, 13));
