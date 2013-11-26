@@ -1,5 +1,7 @@
 package com.cs160.fall13.MeatUp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -7,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 public class GetRecommendationActivity extends FragmentActivity {
@@ -32,6 +35,8 @@ public class GetRecommendationActivity extends FragmentActivity {
     };
     private View previousSuggestionButton;
     private View nextSuggestionButton;
+    private View selectSuggestionButton;
+    private static final int RESTAURANT_SELECTED = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class GetRecommendationActivity extends FragmentActivity {
 
         previousSuggestionButton = findViewById(R.id.previous_suggestion_button);
         nextSuggestionButton = findViewById(R.id.next_suggestion_button);
+        selectSuggestionButton = findViewById(R.id.select_restaurant_button);
 
         // Initializing at the beginning of the list of restaurants, hide the previous button
         previousSuggestionButton.setVisibility(View.INVISIBLE);
@@ -84,6 +90,18 @@ public class GetRecommendationActivity extends FragmentActivity {
                     // Disable next button
                     nextSuggestionButton.setVisibility(View.INVISIBLE);
                 }
+            }
+        });
+        selectSuggestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentItem = pager.getCurrentItem();
+                //not sure how we will actually want to get this, but this works for now
+                String name = restaurants[currentItem].getTitle();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("restaurant_name", name);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
             }
         });
 
