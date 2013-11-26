@@ -8,7 +8,9 @@
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Lunches!"
+            android:text="Lunches you plan with friends will show up here"
+            android:padding="32dp"
+            android:textSize="18dp"
             android:gravity="center"
             />
 

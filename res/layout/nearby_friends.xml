@@ -5,23 +5,23 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Nearby Friends!"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textSize="16dp"
-            android:layout_alignParentTop="true"
-            android:id="@+id/title"
-            />
+    <!--<TextView-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Nearby Friends!"-->
+            <!--android:gravity="center"-->
+            <!--android:padding="8dp"-->
+            <!--android:textSize="16dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:id="@+id/title"-->
+            <!--/>-->
 
-    <View android:layout_width="fill_parent"
-          android:layout_height="1dp"
-          android:background="#DEDEDE"
-          android:layout_below="@id/title"
-          android:id="@+id/divider"
-          />
+    <!--<View android:layout_width="fill_parent"-->
+          <!--android:layout_height="1dp"-->
+          <!--android:background="#DEDEDE"-->
+          <!--android:layout_below="@id/title"-->
+          <!--android:id="@+id/divider"-->
+          <!--/>-->
 
     <Button android:id="@+id/create_invite_button"
             android:layout_height="wrap_content"
@@ -38,8 +38,8 @@
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
             android:layout_above="@id/create_invite_button"
-            android:layout_below="@id/divider"
             />
+            <!--android:layout_below="@id/divider"-->
 
 
 </RelativeLayout>
