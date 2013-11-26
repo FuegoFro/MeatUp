@@ -8,6 +8,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class RestaurantMapFragment extends SupportMapFragment {
@@ -36,10 +37,11 @@ public class RestaurantMapFragment extends SupportMapFragment {
             map.setMyLocationEnabled(true);
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
 
-            map.addMarker(new MarkerOptions()
+            Marker rinfo = map.addMarker(new MarkerOptions()
                     .title(restaurant.getTitle())
                     .snippet("Yummy yummy")
                     .position(location));
+            rinfo.showInfoWindow();
         }
     }
 }
