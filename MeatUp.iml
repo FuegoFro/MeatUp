@@ -20,6 +20,7 @@
     <orderEntry type="module" module-name="google-play-services_lib" />
     <orderEntry type="library" name="google-play-services" level="project" />
     <orderEntry type="module" module-name="wheel" />
+    <orderEntry type="module" module-name="android-maps-utils_library" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

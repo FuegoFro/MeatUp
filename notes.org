@@ -7,3 +7,7 @@
 ** Try using android-wheel: https://code.google.com/p/android-wheel/
 ** project settings -> modules (add module from source), click MeatUp module, add module source in dependencies tab
 ** tutorial here: http://tolkianaa.blogspot.com/2012/04/how-to-use-android-wheel-part-ii.html
+
+* android utils seem useful: https://github.com/googlemaps/android-maps-utils (will try to install) http://googlemaps.github.io/android-maps-utils/
+
+* Tutorial followed for adding location to map: http://developer.android.com/training/location/retrieve-current.html
