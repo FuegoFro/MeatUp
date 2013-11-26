@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/invitedFriend"
-          android:layout_width="fill_parent"
-          android:layout_height="fill_parent"
-          android:padding="10dp"
-          android:textSize="14sp"
-          android:text="Bob Dole">
-</TextView>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="8dp"
+        >
+
+    <ImageView
+            android:id="@+id/remove_friend_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_cancel"
+            android:contentDescription="Cancel Invitation"
+            android:layout_alignParentRight="true"
+            />
+
+    <TextView
+            android:id="@+id/invited_friend_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="18dp"
+            android:text="Bob Dole"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/remove_friend_button"
+            android:textColor="@android:color/white"
+            />
+
+
+</RelativeLayout>
+
 

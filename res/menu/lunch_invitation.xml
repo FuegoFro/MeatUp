@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:meatup="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/send_invite"
+            android:icon="@drawable/ic_action_send_now"
+            android:title="Send Invite"
+            meatup:showAsAction="ifRoom"
+            />
+</menu>

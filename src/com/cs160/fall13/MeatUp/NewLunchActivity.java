@@ -1,134 +1,52 @@
 package com.cs160.fall13.MeatUp;
 
-import android.app.Dialog;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.format.DateUtils;
-import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 
-import kankan.wheel.widget.WheelView;
-import kankan.wheel.widget.adapters.AbstractWheelTextAdapter;
-import kankan.wheel.widget.adapters.ArrayWheelAdapter;
-import kankan.wheel.widget.adapters.NumericWheelAdapter;
-
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 public class NewLunchActivity extends ActionBarActivity {
-
-    Dialog picker;
-    Button select;
-    Button set;
-    TimePicker timep;
-    DatePicker datep;
-    Integer hour,minute,month,day,year;
-    TextView time,date;
-    Button getRec;
-    ListView invitedFriendsView;
-    static ArrayList<String> friendsNames;
+    private int hour;
+    private int minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_lunch);
-        Log.d("newlunchativity", "here");
 
-        /********************************/
-        /** handle android wheel widget **/
-        /********************************/
-        final WheelView hours = (WheelView) findViewById(R.id.hour);
-        NumericWheelAdapter hourAdapter = new NumericWheelAdapter(this, 0, 23);
-        hourAdapter.setItemResource(R.layout.wheel_text_item);
-        hourAdapter.setItemTextResource(R.id.text);
-        hours.setViewAdapter(hourAdapter);
+        // Initialize invitation to be next 15 minute increment
+        Calendar calendar = Calendar.getInstance();
+        minute = calendar.get(Calendar.MINUTE);
+        int minutesToAdd = 15 - minute % 15;
+        calendar.add(Calendar.MINUTE, minutesToAdd); // Does roll over for you
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
 
-        final WheelView mins = (WheelView) findViewById(R.id.mins);
-        NumericWheelAdapter minAdapter = new NumericWheelAdapter(this, 0, 59, "%02d");
-        minAdapter.setItemResource(R.layout.wheel_text_item);
-        minAdapter.setItemTextResource(R.id.text);
-        mins.setViewAdapter(minAdapter);
-        mins.setCyclic(true);
-
-        final WheelView ampm = (WheelView) findViewById(R.id.ampm);
-        ArrayWheelAdapter<String> ampmAdapter =
-                new ArrayWheelAdapter<String>(this, new String[] {"AM", "PM"});
-        ampmAdapter.setItemResource(R.layout.wheel_text_item);
-        ampmAdapter.setItemTextResource(R.id.text);
-        ampm.setViewAdapter(ampmAdapter);
-
-        // set current time
-        Calendar calendar = Calendar.getInstance(Locale.US);
-        hours.setCurrentItem(calendar.get(Calendar.HOUR));
-        mins.setCurrentItem(calendar.get(Calendar.MINUTE));
-        ampm.setCurrentItem(calendar.get(Calendar.AM_PM));
-
-
-        final WheelView day = (WheelView) findViewById(R.id.day);
-        ArrayList dates = new ArrayList();
-        Date originalDate = new Date();
-        int days = 10;
-        long offset;
-        for(int i= 0; i<= days; i++){
-            offset = 86400 * 1000L * i;
-            Date date = new Date( originalDate.getTime()+offset);
-            dates.add(date);
-        }
-
-        day.setViewAdapter(new DayWheelAdapter(this, dates));
-
-        /** end android wheel widget FIXME refactor this section **/
-
-
-
-
+        // ============= Setup list of guests =============
         Intent prevIntent = getIntent();
-        friendsNames = new ArrayList<String>(prevIntent.getStringArrayListExtra("invitedFriendsArray"));
-      //  select = (Button)findViewById(R.id.btnSelect);
-      //  time = (TextView)findViewById(R.id.textTime);
-      //  date = (TextView)findViewById(R.id.textDate);
+        ArrayList<String> friendsNames = prevIntent.getStringArrayListExtra("invitedFriendsArray");
+        if (friendsNames == null) {
+            // Just in case we get to this activity in a strange way, better to not show invited people than to crash
+            friendsNames = new ArrayList<String>();
+        }
+        ListView invitedFriendsView = (ListView) findViewById(R.id.invitedFriendsList);
+        invitedFriendsView.setAdapter(new InvitedFriendsAdapter(friendsNames));
 
-  //      select.setOnClickListener(new View.OnClickListener() {
-
-//            @Override
-//            public void onClick(View view) {
-//                picker = new Dialog(NewLunchActivity.this);
-//                picker.setContentView(R.layout.time_date_pick_frag);
-//                picker.setTitle("Select Date and Time");
-//
-//                //datep = (DatePicker)picker.findViewById(R.id.datePicker);
-//                timep = (TimePicker)picker.findViewById(R.id.timePicker1);
-//                set = (Button)picker.findViewById(R.id.btnSet);
-//
-//                set.setOnClickListener(new View.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(View view) {
-////                        month = -1;//datep.getMonth();
-////                        day = -1;// datep.getDayOfMonth();
-////                        year = -1;// datep.getYear();
-////                        hour = -1; //timep.getCurrentHour();
-////                        minute = -1; //timep.getCurrentMinute();
-////                        time.setText("Time is "+hour+":" +minute);
-////                        time.setVisibility(View.VISIBLE);
-////                        date.setText("The date is " + day + "/" + month + "/" + year);
-////                        date.setVisibility(View.VISIBLE);
-////                        picker.dismiss();
-//                    }
-//                });
-//                picker.show();
-
-   //         }
-   //     });
-        getRec = (Button) findViewById(R.id.getSuggestion);
-        getRec.setOnClickListener(new View.OnClickListener() {
+        // ============= Setup location suggestion =============
+        View locationField = findViewById(R.id.location_field);
+        locationField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent recommendationIntent = new Intent(getApplicationContext(), GetRecommendationActivity.class);
@@ -136,22 +54,117 @@ public class NewLunchActivity extends ActionBarActivity {
             }
         });
 
-        invitedFriendsView = (ListView) findViewById(R.id.invitedFriendsList);
-        // stupid java, you cant cast Object[] to String[] so, you have to make a stupid temp variable.
-        String[] names = new String[friendsNames.size()];
-        names = (String[]) friendsNames.toArray(names);
-        invitedFriendsView.setAdapter(new InvitedFriendsAdapter(names));
+        // ============= Setup time picker =============
+        final TextView timeButton = (TextView) findViewById(R.id.time_button);
+        setTimeField(timeButton, hour, minute);
+        final TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                hour = hourOfDay;
+                NewLunchActivity.this.minute = minute;
+                setTimeField(timeButton, hourOfDay, minute);
+            }
+        };
+        final TimePickerDialog timeDialog = new TimePickerDialog(this, timeSetListener, hour, minute, false);
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeDialog.show();
+            }
+        });
 
+        // ============= Setup date picker =============
+        final TextView dateButton = (TextView) findViewById(R.id.date_button);
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMM dd");
+        if (Build.VERSION.SDK_INT >= 11) {
+            // On 3.0 and higher, create custom date picker with fewer fields that need setting
+            // Setup picker view
+            View dialogView = getLayoutInflater().inflate(R.layout.condensed_date_picker, null);
+            final NumberPicker datePicker = (NumberPicker) dialogView.findViewById(R.id.date_picker);
+
+            // Generate list of dates
+            int numDaysToShow = 14;
+            final String[] dateValues = new String[numDaysToShow];
+            Date[] dates = new Date[numDaysToShow];
+            for (int i = 0; i < numDaysToShow; i++) {
+                dates[i] = calendar.getTime();
+                // Special case today and tomorrow
+                if (i == 0) {
+                    dateValues[i] = "Today";
+                } else if (i == 1) {
+                    dateValues[i] = "Tomorrow";
+                } else {
+                    dateValues[i] = dateFormat.format(calendar.getTime());
+                }
+                calendar.add(Calendar.DATE, 1);
+            }
+            // Set dates on picker
+            datePicker.setDisplayedValues(dateValues);
+            datePicker.setMinValue(0);
+            datePicker.setMaxValue(numDaysToShow - 1);
+            datePicker.setValue(0);
+            datePicker.setWrapSelectorWheel(false);
+
+            // Create dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(dialogView);
+            builder.setTitle("Set date");
+            builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    dateButton.setText(dateValues[datePicker.getValue()]);
+                }
+            });
+            final AlertDialog dateDialog = builder.create();
+            dateButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dateDialog.show();
+                }
+            });
+        } else {
+            // Gingerbread and lower don't have the number picker. Just use the built in date picker.
+            DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    Date currentDate = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTime();
+                    dateButton.setText(dateFormat.format(currentDate));
+                }
+            };
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            final DatePickerDialog dateDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
+            dateButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dateDialog.show();
+                }
+            });
+        }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.lunch_invitation, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void setTimeField(TextView timeField, int hourOfDay, int minute) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+        String timeString = new SimpleDateFormat("hh:mma").format(calendar.getTime());
+        timeField.setText(timeString);
+    }
 
     private class InvitedFriendsAdapter extends ArrayAdapter<String> {
-
         private final LayoutInflater inflater;
         private static final int RESOURCE = R.layout.invited_friends;
 
-        public InvitedFriendsAdapter(String[] objects) {
-            super(getApplicationContext(), RESOURCE, objects);
+        public InvitedFriendsAdapter(List<String> names) {
+            super(getApplicationContext(), RESOURCE, names);
             inflater = getLayoutInflater();
         }
 
@@ -164,8 +177,16 @@ public class NewLunchActivity extends ActionBarActivity {
             } else {
                 view = convertView;
             }
-            TextView name = (TextView) view.findViewById(R.id.invitedFriend);
-            name.setText(getItem(position));
+            final String name = getItem(position);
+            TextView nameField = (TextView) view.findViewById(R.id.invited_friend_name);
+            View removeFriendButton = view.findViewById(R.id.remove_friend_button);
+            removeFriendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    remove(name);
+                }
+            });
+            nameField.setText(name);
 
             return view;
         }

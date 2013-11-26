@@ -1,124 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingTop="16dp"
+              android:paddingBottom="16dp"
+              android:paddingLeft="8dp"
+              android:paddingRight="8dp"
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        >
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_height="wrap_content"
-                  android:layout_width="wrap_content"
-                  android:layout_gravity="center_horizontal"
-                  android:paddingLeft="12dp"
-                  android:paddingRight="12dp"
-                  android:paddingTop="20dp">
-
-        <kankan.wheel.widget.WheelView android:id="@+id/day"
-                                       android:layout_height="wrap_content"
-                                       android:layout_width="wrap_content"/>
-        <kankan.wheel.widget.WheelView android:id="@+id/hour"
-                                       android:layout_height="wrap_content"
-                                       android:layout_width="wrap_content"/>
-        <kankan.wheel.widget.WheelView android:id="@+id/mins"
-                                       android:layout_height="wrap_content"
-                                       android:layout_width="wrap_content"/>
-        <kankan.wheel.widget.WheelView android:id="@+id/ampm"
-                                       android:layout_height="wrap_content"
-                                       android:layout_width="wrap_content"/>
-
-    </LinearLayout>
-
-        <TextView
-            android:id="@+id/textTime"
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:text="" />
+            android:text="TIME"
+            android:paddingLeft="8dp"
+            />
+
+    <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
         <TextView
-            android:id="@+id/textDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:text="" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="12dp"
-            android:background="@android:color/darker_gray"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Location"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textSize="20dp"
-            android:layout_alignParentTop="true"
-            android:id="@+id/locationTitle" />
-
-        <Button
-            android:id="@+id/getSuggestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Restaurant recommendation" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="12dp"
-            android:background="@android:color/darker_gray"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Invited Friends"
-            android:gravity="center"
-            android:paddingTop="8dp"
-            android:textSize="20dp"
-            android:layout_alignParentTop="true"
-            android:id="@+id/invitedFriendsTitle" />
-
-        <Button
-                android:id="@+id/inviteMore"
+                android:id="@+id/time_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Invite Others" />
+                style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
+                android:text="12:30PM"
+                android:textColor="@android:color/white"
+                android:layout_alignParentRight="true"
+                android:width="150dp"
+                android:paddingLeft="8dp"
+                />
 
-        <ListView
+        <TextView
+                android:id="@+id/date_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
+                android:text="Today"
+                android:textColor="@android:color/white"
+                android:layout_toLeftOf="@id/time_button"
+                android:paddingLeft="8dp"
+                />
+
+    </RelativeLayout>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOCATION"
+            android:paddingLeft="8dp"
+            android:paddingTop="16dp"
+            />
+
+    <TextView
+            android:id="@+id/location_field"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Set Location"
+            style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
+            android:paddingLeft="8dp"
+            android:textColor="@color/common_signin_btn_dark_text_disabled"
+            />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GUESTS"
+            android:paddingLeft="8dp"
+            android:paddingTop="16dp"
+            />
+
+    <ListView
             android:id="@+id/invitedFriendsList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            />
 
+    <!-- Todo: Put in Add More Friends button-->
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom">
-
-        <Button
-            android:id="@+id/sendInviteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="Send!" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

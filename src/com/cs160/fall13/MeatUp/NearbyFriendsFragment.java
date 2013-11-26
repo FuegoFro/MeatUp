@@ -1,6 +1,7 @@
 package com.cs160.fall13.MeatUp;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.SparseBooleanArray;
@@ -33,27 +34,27 @@ public class NearbyFriendsFragment extends Fragment {
         final Button inviteButton = (Button) root.findViewById(R.id.create_invite_button);
 
         inviteButton.setOnClickListener(new View.OnClickListener() {
-           public void onClick(View v) {
+            public void onClick(View v) {
 
-               SparseBooleanArray checkedItems = friendsList.getCheckedItemPositions();
-               ArrayList<String> invitedFriends = new ArrayList<String>();
-               NearbyFriend temp;
-               for (int i = 0; i < friendsList.getAdapter().getCount(); i++) {
-                   if (checkedItems.get(i)) {
-                       temp = (NearbyFriend) friendsList.getItemAtPosition(i);
-                       invitedFriends.add(temp.getName());
-                   }
-               }
-               Intent newLunchIntent = new Intent(getActivity(), NewLunchActivity.class);
-               newLunchIntent.putExtra("invitedFriendsArray", invitedFriends);
-               startActivity(newLunchIntent);
-           }
+                SparseBooleanArray checkedItems = friendsList.getCheckedItemPositions();
+                ArrayList<String> invitedFriends = new ArrayList<String>();
+                NearbyFriend temp;
+                for (int i = 0; i < friendsList.getAdapter().getCount(); i++) {
+                    if (checkedItems.get(i)) {
+                        temp = (NearbyFriend) friendsList.getItemAtPosition(i);
+                        invitedFriends.add(temp.getName());
+                    }
+                }
+                Intent newLunchIntent = new Intent(getActivity(), NewLunchActivity.class);
+                newLunchIntent.putExtra("invitedFriendsArray", invitedFriends);
+                startActivity(newLunchIntent);
+            }
         });
 
         friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (friendsList.getCheckedItemCount() > 0) {
+                if (getCheckedItemCount(friendsList) > 0) {
                     inviteButton.setVisibility(View.VISIBLE);
                 } else {
                     inviteButton.setVisibility(View.GONE);
@@ -109,6 +110,17 @@ public class NearbyFriendsFragment extends Fragment {
             dist.setText(friend.getDistance());
 
             return view;
+        }
+    }
+
+    public static int getCheckedItemCount(ListView listView) {
+        // Compatibility for gingerbread
+        if (Build.VERSION.SDK_INT >= 11) return listView.getCheckedItemCount();
+        else {
+            int count = 0;
+            for (int i = listView.getCount() - 1; i >= 0; i--)
+                if (listView.isItemChecked(i)) count++;
+            return count;
         }
     }
 }

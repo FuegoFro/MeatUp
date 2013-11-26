@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <drawable name="add_friend_checked_color">#0C4F10</drawable>
+    <drawable name="add_friend_checked_color">#8033b5e5</drawable>
     <!--<drawable name="add_friend_checked_color">#C3FCB8</drawable>-->
     <drawable name="transparent_color">#0000</drawable>
 </resources>
