@@ -1,5 +1,6 @@
 package com.cs160.fall13.MeatUp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -20,6 +21,7 @@ import java.util.*;
 public class NewLunchActivity extends ActionBarActivity {
     private int hour;
     private int minute;
+    private TextView locationField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -45,12 +47,12 @@ public class NewLunchActivity extends ActionBarActivity {
         invitedFriendsView.setAdapter(new InvitedFriendsAdapter(friendsNames));
 
         // ============= Setup location suggestion =============
-        View locationField = findViewById(R.id.location_field);
+        locationField = (TextView) findViewById(R.id.location_field);
         locationField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent recommendationIntent = new Intent(getApplicationContext(), GetRecommendationActivity.class);
-                startActivity(recommendationIntent);
+                startActivityForResult(recommendationIntent, GetRecommendationActivity.RESTAURANT_SELECTED);
             }
         });
 
@@ -149,6 +151,20 @@ public class NewLunchActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.lunch_invitation, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (GetRecommendationActivity.RESTAURANT_SELECTED): {
+                if (resultCode == Activity.RESULT_OK) {
+                    String restaurantName = data.getStringExtra("restaurant_name");
+                    locationField.setText(restaurantName);
+                }
+                break;
+            }
+        }
     }
 
     private void setTimeField(TextView timeField, int hourOfDay, int minute) {

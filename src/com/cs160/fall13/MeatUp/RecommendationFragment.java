@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.gms.maps.SupportMapFragment;
-
-import com.google.maps.android.SphericalUtil;
 public class RecommendationFragment extends Fragment {
 
     public static final String RESTAURANT_ARGUMENT_KEY = "restaurant argument key";

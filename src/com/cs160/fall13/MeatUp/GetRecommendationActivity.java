@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 
 public class GetRecommendationActivity extends ActionBarActivity {
@@ -36,7 +35,7 @@ public class GetRecommendationActivity extends ActionBarActivity {
     private View previousSuggestionButton;
     private View nextSuggestionButton;
     private View selectSuggestionButton;
-    private static final int RESTAURANT_SELECTED = 1;
+    public static final int RESTAURANT_SELECTED = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
