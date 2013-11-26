@@ -3,10 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MeatUp.iml" filepath="$PROJECT_DIR$/MeatUp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libs/android-maps-utils_library/android-maps-utils_library.iml" filepath="$PROJECT_DIR$/libs/android-maps-utils_library/android-maps-utils_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/appcompat/appcompat.iml" filepath="$PROJECT_DIR$/libs/appcompat/appcompat.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/google-play-services_lib/google-play-services_lib.iml" filepath="$PROJECT_DIR$/libs/google-play-services_lib/google-play-services_lib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libs/android-wheel-read-only/wheel/wheel.iml" filepath="$PROJECT_DIR$/libs/android-wheel-read-only/wheel/wheel.iml" />
     </modules>
   </component>
 </project>

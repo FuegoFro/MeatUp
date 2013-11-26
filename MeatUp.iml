@@ -19,7 +19,6 @@
     <orderEntry type="library" name="android-support-v7-appcompat" level="project" />
     <orderEntry type="module" module-name="google-play-services_lib" />
     <orderEntry type="library" name="google-play-services" level="project" />
-    <orderEntry type="module" module-name="wheel" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

@@ -60,7 +60,7 @@
             android:id="@+id/location_field"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Set Location"
+            android:text="Set Location..."
             style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
             android:paddingLeft="8dp"
             android:textColor="@color/common_signin_btn_dark_text_disabled"

@@ -161,6 +161,7 @@ public class NewLunchActivity extends ActionBarActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     String restaurantName = data.getStringExtra("restaurant_name");
                     locationField.setText(restaurantName);
+                    locationField.setTextColor(getResources().getColor(android.R.color.white));
                 }
                 break;
             }
@@ -171,7 +172,7 @@ public class NewLunchActivity extends ActionBarActivity {
         Calendar calendar = new GregorianCalendar();
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
-        String timeString = new SimpleDateFormat("hh:mma").format(calendar.getTime());
+        String timeString = new SimpleDateFormat("h:mma").format(calendar.getTime());
         timeField.setText(timeString);
     }
 
