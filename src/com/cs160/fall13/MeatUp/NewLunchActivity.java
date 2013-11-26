@@ -1,5 +1,6 @@
 package com.cs160.fall13.MeatUp;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,7 @@ public class NewLunchActivity extends ActionBarActivity {
     Button getRec;
     ListView invitedFriendsView;
     static ArrayList<String> friendsNames;
+    private static final int RESTAURANT_SELECTED = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -132,7 +134,7 @@ public class NewLunchActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent recommendationIntent = new Intent(getApplicationContext(), GetRecommendationActivity.class);
-                startActivity(recommendationIntent);
+                startActivityForResult(recommendationIntent, RESTAURANT_SELECTED);
             }
         });
 
@@ -168,6 +170,21 @@ public class NewLunchActivity extends ActionBarActivity {
             name.setText(getItem(position));
 
             return view;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (RESTAURANT_SELECTED) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    String restaurantName = data.getStringExtra("restaurant_name");
+                    TextView tv = (TextView) findViewById(R.id.locationTitle);
+                    tv.setText("Location - " + restaurantName);
+                }
+                break;
+            }
         }
     }
 }
