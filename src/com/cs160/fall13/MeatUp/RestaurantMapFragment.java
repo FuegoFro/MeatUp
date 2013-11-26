@@ -87,6 +87,13 @@ public class RestaurantMapFragment extends SupportMapFragment implements
         }
     }
 
+    private void updateMapSnippet() {
+        String distanceStr = getDistanceToRestString();
+        String dispStr = distanceStr + " (rating: " + restaurant.getRating() + "/5)";
+        rinfo.setSnippet(dispStr);
+        rinfo.showInfoWindow();
+    }
+
     private String getDistanceToRestString() {
         double dist = -1;
         if (mCurrentLocation != null){
@@ -209,12 +216,6 @@ public class RestaurantMapFragment extends SupportMapFragment implements
         mLocationClient.requestLocationUpdates(
                 REQUEST,
                 this);  // LocationListener
-//        mCurrentLocation = mLocationClient.getLastLocation();
-//        if (rinfo != null && mCurrentLocation != null) {
-//            rinfo.setSnippet(getDistanceToRestString());
-//            rinfo.showInfoWindow();
-//       }
-
     }
 
     /*
@@ -235,8 +236,7 @@ public class RestaurantMapFragment extends SupportMapFragment implements
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
         if (rinfo != null && mCurrentLocation != null) {
-            rinfo.setSnippet(getDistanceToRestString());
-            rinfo.showInfoWindow();
+            updateMapSnippet();
         }
     }
 
