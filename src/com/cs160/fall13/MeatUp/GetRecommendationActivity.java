@@ -14,7 +14,7 @@ import android.view.View;
 
 public class GetRecommendationActivity extends FragmentActivity {
 
-    private static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 10;
     private ViewPager pager;
     private Restaurant[] restaurants = {
             new Restaurant("La Val's", 37.8755322, -122.2603641, true, true, 4),

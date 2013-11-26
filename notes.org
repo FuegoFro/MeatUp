@@ -10,3 +10,4 @@
 
 * android utils seem useful: https://github.com/googlemaps/android-maps-utils (will try to install) http://googlemaps.github.io/android-maps-utils/
 
+* Tutorial followed for adding location to map: http://developer.android.com/training/location/retrieve-current.html

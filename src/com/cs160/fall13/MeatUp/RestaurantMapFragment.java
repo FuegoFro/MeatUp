@@ -17,6 +17,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -27,7 +29,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class RestaurantMapFragment extends SupportMapFragment implements
         GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener {
+        GooglePlayServicesClient.OnConnectionFailedListener,
+        LocationListener {
 
     // Global constants
         /*
@@ -36,6 +39,10 @@ public class RestaurantMapFragment extends SupportMapFragment implements
          */
     private final static int
             CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private static final LocationRequest REQUEST = LocationRequest.create()
+            .setInterval(5000)         // 5 seconds
+            .setFastestInterval(16)    // 16ms = 60fps
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     private Restaurant restaurant = null;
     private LocationClient mLocationClient;
     private Location mCurrentLocation;
@@ -67,7 +74,7 @@ public class RestaurantMapFragment extends SupportMapFragment implements
             }
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
 
-            String distStr = "";
+            String distStr = "Calculating distance...";
             if (mLocationClient.isConnected()) {
                 distStr = getDistanceToRestString();
             }
@@ -81,9 +88,12 @@ public class RestaurantMapFragment extends SupportMapFragment implements
     }
 
     private String getDistanceToRestString() {
-        double dist = gps2m(restaurant.getLat(), restaurant.getLon(),
-                mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());       // FIXME precision issues
-        return String.format("%.1f meters away", dist);
+        double dist = -1;
+        if (mCurrentLocation != null){
+            dist = gps2m(restaurant.getLat(), restaurant.getLon(),
+                    mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());       // FIXME precision issues
+        }
+        return String.format("%.1f miles away", dist);
     }
 
     // TODO not accurate for long distances
@@ -100,7 +110,7 @@ public class RestaurantMapFragment extends SupportMapFragment implements
         float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
         double tt = Math.acos(t1 + t2 + t3);
 
-        return 6366000 * tt;
+        return 6366 * tt * 0.621371;
     }
 
     /*
@@ -195,12 +205,15 @@ public class RestaurantMapFragment extends SupportMapFragment implements
     @Override
     public void onConnected(Bundle dataBundle) {
         // Display the connection status
-        Toast.makeText(getActivity(), "Connected", Toast.LENGTH_SHORT).show();
-        mCurrentLocation = mLocationClient.getLastLocation();
-        if (rinfo != null) {
-            rinfo.setSnippet(getDistanceToRestString());
-            rinfo.showInfoWindow();
-        }
+        // Toast.makeText(getActivity(), "Connected", Toast.LENGTH_SHORT).show();
+        mLocationClient.requestLocationUpdates(
+                REQUEST,
+                this);  // LocationListener
+//        mCurrentLocation = mLocationClient.getLastLocation();
+//        if (rinfo != null && mCurrentLocation != null) {
+//            rinfo.setSnippet(getDistanceToRestString());
+//            rinfo.showInfoWindow();
+//       }
 
     }
 
@@ -213,6 +226,18 @@ public class RestaurantMapFragment extends SupportMapFragment implements
         // Display the connection status
         Toast.makeText(getActivity(), "Disconnected. Please re-connect.",
                 Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Implementation of {@link com.google.android.gms.location.LocationListener}.
+     */
+    @Override
+    public void onLocationChanged(Location location) {
+        mCurrentLocation = location;
+        if (rinfo != null && mCurrentLocation != null) {
+            rinfo.setSnippet(getDistanceToRestString());
+            rinfo.showInfoWindow();
+        }
     }
 
     /*
@@ -246,7 +271,7 @@ public class RestaurantMapFragment extends SupportMapFragment implements
                  * If no resolution is available, display a dialog to the
                  * user with the error.
                  */
-            // TODO find showErrorDialog
+            // TODO find showErrorDialog method
         }
     }
 
