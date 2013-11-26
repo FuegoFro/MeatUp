@@ -47,13 +47,13 @@ public class NewLunchActivity extends ActionBarActivity {
         /** handle android wheel widget **/
         /********************************/
         final WheelView hours = (WheelView) findViewById(R.id.hour);
-        NumericWheelAdapter hourAdapter = new NumericWheelAdapter(this, 0, 23);
+        NumericWheelAdapter hourAdapter = new NumericWheelAdapter(this, 1, 12, "%-4d");
         hourAdapter.setItemResource(R.layout.wheel_text_item);
         hourAdapter.setItemTextResource(R.id.text);
         hours.setViewAdapter(hourAdapter);
 
         final WheelView mins = (WheelView) findViewById(R.id.mins);
-        NumericWheelAdapter minAdapter = new NumericWheelAdapter(this, 0, 59, "%02d");
+        NumericWheelAdapter minAdapter = new NumericWheelAdapter(this, 0, 59, "%-4d");
         minAdapter.setItemResource(R.layout.wheel_text_item);
         minAdapter.setItemTextResource(R.id.text);
         mins.setViewAdapter(minAdapter);

@@ -9,13 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Proposed Lunch Time"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="20dp"
+                android:layout_alignParentTop="true"
+                android:id="@+id/timeTitle" />
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_height="wrap_content"
                   android:layout_width="wrap_content"
                   android:layout_gravity="center_horizontal"
                   android:paddingLeft="12dp"
                   android:paddingRight="12dp"
-                  android:paddingTop="20dp">
+                  android:paddingTop="0dp">
 
         <kankan.wheel.widget.WheelView android:id="@+id/day"
                                        android:layout_height="wrap_content"
