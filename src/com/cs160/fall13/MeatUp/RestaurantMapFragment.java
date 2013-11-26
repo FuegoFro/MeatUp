@@ -44,6 +44,7 @@ public class RestaurantMapFragment extends SupportMapFragment implements
             .setFastestInterval(16)    // 16ms = 60fps
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     private Restaurant restaurant = null;
+    private Location restLoc;
     private LocationClient mLocationClient;
     private Location mCurrentLocation;
     private Marker rinfo;
@@ -52,7 +53,10 @@ public class RestaurantMapFragment extends SupportMapFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.restaurant = (Restaurant) getArguments().getSerializable(RecommendationFragment.RESTAURANT_ARGUMENT_KEY);
-        mLocationClient = new LocationClient(getActivity(), this, this);
+        this.restLoc = new Location(restaurant.getTitle());
+        this.restLoc.setLatitude(restaurant.getLat());
+        this.restLoc.setLongitude(restaurant.getLon());
+        this.mLocationClient = new LocationClient(getActivity(), this, this);
     }
 
     @Override
@@ -96,28 +100,17 @@ public class RestaurantMapFragment extends SupportMapFragment implements
 
     private String getDistanceToRestString() {
         double dist = -1;
-        if (mCurrentLocation != null){
-            dist = gps2m(restaurant.getLat(), restaurant.getLon(),
-                    mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());       // FIXME precision issues
+        String distMeas = "meters";
+
+        if (mCurrentLocation != null && restLoc != null){
+            dist = mCurrentLocation.distanceTo(restLoc);
+
+            if (dist > 500){
+                dist *= 6.21371e-4;     // meters to miles
+                distMeas = "miles";
+            }
         }
-        return String.format("%.1f miles away", dist);
-    }
-
-    // TODO not accurate for long distances
-    private double gps2m(double lat_a, double lng_a, double lat_b, double lng_b) {
-        float pk = (float) (180 / 3.14169);
-
-        float a1 = (float) (lat_a / pk);
-        float a2 = (float) (lng_a / pk);
-        float b1 = (float) (lat_b / pk);
-        float b2 = (float) (lng_b / pk);
-
-        float t1 = FloatMath.cos(a1) * FloatMath.cos(a2) * FloatMath.cos(b1) * FloatMath.cos(b2);
-        float t2 = FloatMath.cos(a1) * FloatMath.sin(a2) * FloatMath.cos(b1) * FloatMath.sin(b2);
-        float t3 = FloatMath.sin(a1) * FloatMath.sin(b1);
-        double tt = Math.acos(t1 + t2 + t3);
-
-        return 6366 * tt * 0.621371;
+        return String.format("%.1f %s away", dist, distMeas);
     }
 
     /*
