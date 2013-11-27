@@ -33,6 +33,7 @@
     <ListView
             android:id="@+id/planned_lunches"
             android:layout_height="fill_parent"
+            android:textSize="@dimen/base_txt_size"
             android:layout_width="fill_parent">
     </ListView>
 
