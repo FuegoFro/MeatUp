@@ -2,6 +2,15 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:meatup="http://schemas.android.com/apk/res-auto">
+    <!-- Item for contextual menu -->
+    <item
+            android:id="@+id/action_create_invitation"
+            android:icon="@drawable/ic_action_new_email"
+            android:title="Create Invitation"
+            meatup:showAsAction="ifRoom"
+            android:visible="false"
+            />
+    <!-- Items for normal menu -->
     <item
             android:id="@+id/action_add_friend"
             android:icon="@drawable/ic_action_add_person"

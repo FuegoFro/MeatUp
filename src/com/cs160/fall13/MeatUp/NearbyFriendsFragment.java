@@ -1,18 +1,30 @@
 package com.cs160.fall13.MeatUp;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 
 import java.util.ArrayList;
 
 public class NearbyFriendsFragment extends Fragment {
+    private ListView friendsList;
+    private Menu menu;
+    private boolean initialized = false;
+    private MenuItem.OnMenuItemClickListener createInvitationClickListener;
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -27,15 +39,13 @@ public class NearbyFriendsFragment extends Fragment {
         };
 
         View root = inflater.inflate(R.layout.nearby_friends, container, false);
-        final ListView friendsList = (ListView) root.findViewById(R.id.friends_list);
+        friendsList = (ListView) root.findViewById(R.id.friends_list);
         friendsList.setAdapter(new NearbyFriendsAdapter(friends));
         friendsList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 
-        final Button inviteButton = (Button) root.findViewById(R.id.create_invite_button);
-
-        inviteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
+        createInvitationClickListener = new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
                 SparseBooleanArray checkedItems = friendsList.getCheckedItemPositions();
                 ArrayList<String> invitedFriends = new ArrayList<String>();
                 NearbyFriend temp;
@@ -48,21 +58,72 @@ public class NearbyFriendsFragment extends Fragment {
                 Intent newLunchIntent = new Intent(getActivity(), NewLunchActivity.class);
                 newLunchIntent.putExtra("invitedFriendsArray", invitedFriends);
                 startActivity(newLunchIntent);
+                return true;
             }
-        });
+        };
 
         friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (getCheckedItemCount(friendsList) > 0) {
-                    inviteButton.setVisibility(View.VISIBLE);
-                } else {
-                    inviteButton.setVisibility(View.GONE);
-                }
+                updateMenu();
             }
         });
-
+        initialized = true;
         return root;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (initialized) {
+            if (isVisibleToUser) {
+                updateMenu();
+            } else {
+                showDefaultMenu();
+            }
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        this.menu = menu;
+        menu.findItem(R.id.action_create_invitation).setOnMenuItemClickListener(createInvitationClickListener);
+        updateMenu();
+    }
+
+    private void updateMenu() {
+        if (getCheckedItemCount(friendsList) > 0) {
+            showContextualMenu();
+        } else {
+            showDefaultMenu();
+        }
+    }
+
+    private void showDefaultMenu() {
+        ActionBarActivity activity = (ActionBarActivity) getActivity();
+        if (activity != null) {
+            ActionBar actionBar = activity.getSupportActionBar();
+            actionBar.setBackgroundDrawable(null);
+        }
+        if (menu != null) {
+            menu.findItem(R.id.action_add_friend).setVisible(true);
+            menu.findItem(R.id.action_settings).setVisible(true);
+            menu.findItem(R.id.action_help).setVisible(true);
+            menu.findItem(R.id.action_create_invitation).setVisible(false);
+        }
+    }
+
+    private void showContextualMenu() {
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        Drawable background = getResources().getDrawable(R.drawable.abc_cab_background_top_holo_dark);
+        actionBar.setBackgroundDrawable(background);
+        if (menu != null) {
+            menu.findItem(R.id.action_add_friend).setVisible(false);
+            menu.findItem(R.id.action_settings).setVisible(false);
+            menu.findItem(R.id.action_help).setVisible(false);
+            menu.findItem(R.id.action_create_invitation).setVisible(true);
+        }
     }
 
     private class NearbyFriend {

@@ -1,45 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <!--<TextView-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Nearby Friends!"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="8dp"-->
-            <!--android:textSize="16dp"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:id="@+id/title"-->
-            <!--/>-->
-
-    <!--<View android:layout_width="fill_parent"-->
-          <!--android:layout_height="1dp"-->
-          <!--android:background="#DEDEDE"-->
-          <!--android:layout_below="@id/title"-->
-          <!--android:id="@+id/divider"-->
-          <!--/>-->
-
-    <Button android:id="@+id/create_invite_button"
+    <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:text="Send Invite"
-            android:layout_margin="8dp"
-            android:visibility="gone"
+            android:text="Select nearby friends to have lunch with"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="16dp"
             />
+
+    <View android:layout_width="fill_parent"
+          android:layout_height="1dp"
+          android:background="#DEDEDE"
+          android:id="@+id/divider"
+          />
 
     <ListView
             android:id="@+id/friends_list"
             android:layout_height="fill_parent"
             android:layout_width="fill_parent"
-            android:layout_above="@id/create_invite_button"
             />
-            <!--android:layout_below="@id/divider"-->
 
-
-</RelativeLayout>
+</LinearLayout>

@@ -24,8 +24,7 @@ public class MainTabsActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Create add friend button
         getMenuInflater().inflate(R.menu.main_tabs_actions, menu);
-        // The add friends button is the first item
-        menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        menu.findItem(R.id.action_add_friend).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent = new Intent(getApplicationContext(), AddFriendsActivity.class);

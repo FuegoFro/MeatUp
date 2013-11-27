@@ -20,9 +20,6 @@ public class TabSetup {
 
         // Specify that tabs should be displayed in the action bar.
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        // Make it split (put actions on bottom)
-//        actionBar.setDisplayShowHomeEnabled(false);
-//        actionBar.setDisplayShowTitleEnabled(false);
 
         // Create a tab listener that is called when the user changes tabs.
         ActionBar.TabListener tabListener = new NamedTabListener(names, pager, actionBar);
