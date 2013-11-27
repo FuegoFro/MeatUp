@@ -6,10 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.SparseBooleanArray;
@@ -17,7 +13,7 @@ import android.view.*;
 import android.widget.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 
 public class NearbyFriendsFragment extends Fragment {
     private ListView friendsList;
@@ -55,14 +51,19 @@ public class NearbyFriendsFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 SparseBooleanArray checkedItems = friendsList.getCheckedItemPositions();
+                // Send list of checked friends to invite creation activity. Also uncheck friends
                 ArrayList<String> invitedFriends = new ArrayList<String>();
                 NearbyFriend temp;
                 for (int i = 0; i < friendsList.getAdapter().getCount(); i++) {
                     if (checkedItems.get(i)) {
+                        friendsList.setItemChecked(i, false); // unchack all checked friends
                         temp = (NearbyFriend) friendsList.getItemAtPosition(i);
                         invitedFriends.add(temp.getName());
                     }
                 }
+                // Return action bar to normal
+                showDefaultMenu();
+                // Launch invite creation activity
                 Intent newLunchIntent = new Intent(getActivity(), NewLunchActivity.class);
                 newLunchIntent.putExtra("invitedFriendsArray", invitedFriends);
                 startActivityForResult(newLunchIntent, INVITE_SENT);
@@ -200,10 +201,8 @@ public class NearbyFriendsFragment extends Fragment {
             case (INVITE_SENT): {
                 if (resultCode == Activity.RESULT_OK) {
                     String location = data.getStringExtra("location");
-                    int hour = data.getIntExtra("hour", 1);
-                    int minute = data.getIntExtra("minute", 1);
-                    String day = data.getStringExtra("day");
-                    Lunch lunch = new Lunch(hour, minute, day, location);
+                    Calendar time = (Calendar) data.getSerializableExtra("lunch_time");
+                    Lunch lunch = new Lunch(time, location);
                     ActionBarActivity activity = (ActionBarActivity) getActivity();
                     LunchesFragment lunchesFragment = null;
                     for (Fragment fragment : activity.getSupportFragmentManager().getFragments()) {

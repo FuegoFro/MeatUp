@@ -16,12 +16,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class NewLunchActivity extends ActionBarActivity {
-    private int hour;
-    private int minute;
+    private Calendar lunchTime;
     private TextView locationField;
-    private String day;
     ArrayList<String> friendsNames;
-    String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    private boolean locationSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -29,13 +27,11 @@ public class NewLunchActivity extends ActionBarActivity {
         setContentView(R.layout.new_lunch);
 
         // Initialize invitation to be next 15 minute increment
-        Calendar calendar = Calendar.getInstance();
-        minute = calendar.get(Calendar.MINUTE);
+        lunchTime = Calendar.getInstance();
+//        Calendar calendar = Calendar.getInstance();
+        int minute = lunchTime.get(Calendar.MINUTE);
         int minutesToAdd = 15 - minute % 15;
-        calendar.add(Calendar.MINUTE, minutesToAdd); // Does roll over for you
-        hour = calendar.get(Calendar.HOUR_OF_DAY);
-        minute = calendar.get(Calendar.MINUTE);
-        day = days[calendar.get(Calendar.DAY_OF_WEEK)];
+        lunchTime.add(Calendar.MINUTE, minutesToAdd); // Does roll over for you
 
         // ============= Setup list of guests =============
         Intent prevIntent = getIntent();
@@ -59,15 +55,18 @@ public class NewLunchActivity extends ActionBarActivity {
 
         // ============= Setup time picker =============
         final TextView timeButton = (TextView) findViewById(R.id.time_button);
-        setTimeField(timeButton, hour, minute);
+        setTimeField(timeButton, lunchTime);
         final TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                hour = hourOfDay;
-                NewLunchActivity.this.minute = minute;
-                setTimeField(timeButton, hourOfDay, minute);
+                lunchTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                lunchTime.set(Calendar.MINUTE, minute);
+                setTimeField(timeButton, lunchTime);
             }
         };
+        // Extract initial values for picker
+        int hour = lunchTime.get(Calendar.HOUR_OF_DAY);
+        minute = lunchTime.get(Calendar.MINUTE);
         final TimePickerDialog timeDialog = new TimePickerDialog(this, timeSetListener, hour, minute, false);
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +87,8 @@ public class NewLunchActivity extends ActionBarActivity {
             // Generate list of dates
             int numDaysToShow = 14;
             final String[] dateValues = new String[numDaysToShow];
-            Date[] dates = new Date[numDaysToShow];
+            final Date[] dates = new Date[numDaysToShow];
+            Calendar calendar = Calendar.getInstance();
             for (int i = 0; i < numDaysToShow; i++) {
                 dates[i] = calendar.getTime();
                 // Special case today and tomorrow
@@ -116,7 +116,14 @@ public class NewLunchActivity extends ActionBarActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    dateButton.setText(dateValues[datePicker.getValue()]);
+                    int value = datePicker.getValue();
+                    // Set year, month, day on lunch time
+                    GregorianCalendar tempCal = new GregorianCalendar();
+                    tempCal.setTime(dates[value]);
+                    for (int field : new int[]{Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH}) {
+                        lunchTime.set(field, tempCal.get(field));
+                    }
+                    dateButton.setText(dateValues[value]);
                 }
             });
             final AlertDialog dateDialog = builder.create();
@@ -131,13 +138,15 @@ public class NewLunchActivity extends ActionBarActivity {
             DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    Date currentDate = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTime();
-                    dateButton.setText(dateFormat.format(currentDate));
+                    lunchTime.set(Calendar.YEAR, year);
+                    lunchTime.set(Calendar.MONTH, monthOfYear);
+                    lunchTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    dateButton.setText(dateFormat.format(lunchTime));
                 }
             };
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int year = lunchTime.get(Calendar.YEAR);
+            int month = lunchTime.get(Calendar.MONTH);
+            int day = lunchTime.get(Calendar.DAY_OF_MONTH);
             final DatePickerDialog dateDialog = new DatePickerDialog(this, dateSetListener, year, month, day);
             dateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -158,14 +167,18 @@ public class NewLunchActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.send_invite:
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("hour", hour);
-                resultIntent.putExtra("minute", minute);
-                resultIntent.putExtra("location", locationField.getText());
-                resultIntent.putExtra("invited_friends", friendsNames);
-                resultIntent.putExtra("day", day);
-                setResult(Activity.RESULT_OK, resultIntent);
-                finish();
+                if (!locationSet) {
+                    // Require them to select a location
+                    Toast.makeText(this, "Please select a location for your meet up", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("lunch_time", lunchTime);
+                    resultIntent.putExtra("location", locationField.getText());
+                    resultIntent.putExtra("invited_friends", friendsNames);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                }
+                // Falls-through
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -180,16 +193,14 @@ public class NewLunchActivity extends ActionBarActivity {
                     String restaurantName = data.getStringExtra("restaurant_name");
                     locationField.setText(restaurantName);
                     locationField.setTextColor(getResources().getColor(android.R.color.white));
+                    locationSet = true;
                 }
                 break;
             }
         }
     }
 
-    private void setTimeField(TextView timeField, int hourOfDay, int minute) {
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        calendar.set(Calendar.MINUTE, minute);
+    private void setTimeField(TextView timeField, Calendar calendar) {
         String timeString = new SimpleDateFormat("h:mma").format(calendar.getTime());
         timeField.setText(timeString);
     }

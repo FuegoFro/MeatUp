@@ -9,25 +9,31 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class LunchesFragment extends Fragment {
 
-    private ArrayList<Lunch> lunches = new ArrayList<Lunch>();
-    public ListView plannedLunches;
+    private LunchesAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View root = inflater.inflate(R.layout.lunches, container, false);
-        //for some reason, the lunches weren't updating unless there was something in them to begin with.
-        lunches.add(new Lunch(12, 45, "Today", "Bongo Burger"));
-        plannedLunches = (ListView) root.findViewById(R.id.planned_lunches);
-        plannedLunches.setAdapter(new LunchesAdapter(lunches));
+
+        ListView plannedLunches = (ListView) root.findViewById(R.id.planned_lunches);
+        adapter = new LunchesAdapter(new ArrayList<Lunch>());
+        plannedLunches.setAdapter(adapter);
+
+        View noLunchesText = root.findViewById(R.id.no_lunches_text);
+        plannedLunches.setEmptyView(noLunchesText);
+
         return root;
     }
 
     public void addLunch(Lunch lunch) {
-        ((LunchesAdapter)plannedLunches.getAdapter()).addLunch(lunch);
+        adapter.add(lunch);
     }
 
 
@@ -55,15 +61,24 @@ public class LunchesFragment extends Fragment {
             TextView location = (TextView) view.findViewById(R.id.friend_name);
             TextView time = (TextView) view.findViewById(R.id.friend_distance);
             Lunch lunch = getItem(position);
+            Calendar lunchTime = lunch.getTime();
             location.setText(lunch.getLocation());
-            String minute = lunch.getMinute() == 0 ? "00" : Integer.toString(lunch.getMinute());
-            time.setText(lunch.getDay() + " - " + lunch.getHour() + ":" + minute);
-            return view;
-        }
 
-        public void addLunch(Lunch lunch) {
-            lunches.add(lunch);
-            plannedLunches.invalidate();
+            Calendar today = Calendar.getInstance();
+            Calendar tomorrow = Calendar.getInstance();
+            tomorrow.add(Calendar.DATE, 1);
+            String dateString;
+            if (lunchTime.get(Calendar.YEAR) == today.get(Calendar.YEAR) && lunchTime.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
+                dateString = "Today";
+            } else if (lunchTime.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR) && lunchTime.get(Calendar.DAY_OF_YEAR) == tomorrow.get(Calendar.DAY_OF_YEAR)) {
+                dateString = "Tomorrow";
+            } else {
+                dateString = new SimpleDateFormat("EEEE, MMM d").format(lunchTime.getTime());
+            }
+            String timeString = new SimpleDateFormat("h:mma").format(lunchTime.getTime());
+
+            time.setText(dateString + " at " + timeString);
+            return view;
         }
     }
 }

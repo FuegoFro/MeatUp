@@ -10,14 +10,13 @@
             android:layout_height="wrap_content"
             android:text="Select nearby friends to have lunch with"
             android:gravity="center"
-            android:padding="8dp"
-            android:textSize="16dp"
+            android:padding="16dp"
+            android:textSize="18dp"
             />
 
     <View android:layout_width="fill_parent"
           android:layout_height="1dp"
-          android:background="#DEDEDE"
-          android:id="@+id/divider"
+          android:background="@drawable/abc_list_divider_holo_dark"
           />
 
     <ListView

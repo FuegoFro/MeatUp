@@ -6,8 +6,24 @@
               android:layout_height="match_parent">
 
     <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Your planned lunches"
+            android:padding="16dp"
+            android:textSize="18dp"
+            android:gravity="center"
+            />
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/abc_list_divider_holo_dark"
+            />
+
+    <TextView
+            android:id="@+id/no_lunches_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Lunches you plan with friends will show up here"
             android:padding="32dp"
             android:textSize="18dp"

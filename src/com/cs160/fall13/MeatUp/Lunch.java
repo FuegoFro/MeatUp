@@ -1,39 +1,25 @@
 package com.cs160.fall13.MeatUp;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 public class Lunch {
 
-    private int hour;
-    private int minute;
-
-    private String day;
-
+    private Calendar time;
     private String location;
     private ArrayList<String> attendees = new ArrayList<String>();
 
-    public Lunch (int hour, int minute, String day, String location) {
-        setHour(hour);
-        setMinute(minute);
-        setLocation(location);
-        setDay(day);
+    public Lunch (Calendar time, String location) {
+        this.time = time;
+        this.location = location;
     }
 
-    public int getHour() {
-        return hour;
+    public Calendar getTime() {
+        return time;
     }
 
-    public void setHour(int hour) {
-        this.hour = hour;
-    }
-
-    public int getMinute() {
-        return minute;
-    }
-
-    public void setMinute(int minute) {
-        this.minute = minute;
+    public void setTime(Calendar time) {
+        this.time = time;
     }
 
     public String getLocation() {
@@ -50,13 +36,5 @@ public class Lunch {
 
     public void setAttendees(ArrayList<String> attendees) {
         this.attendees = attendees;
-    }
-
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
     }
 }
