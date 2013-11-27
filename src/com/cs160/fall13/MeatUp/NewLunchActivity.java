@@ -9,10 +9,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +19,9 @@ public class NewLunchActivity extends ActionBarActivity {
     private int hour;
     private int minute;
     private TextView locationField;
+    private String day;
+    ArrayList<String> friendsNames;
+    String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -35,10 +35,11 @@ public class NewLunchActivity extends ActionBarActivity {
         calendar.add(Calendar.MINUTE, minutesToAdd); // Does roll over for you
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = calendar.get(Calendar.MINUTE);
+        day = days[calendar.get(Calendar.DAY_OF_WEEK)];
 
         // ============= Setup list of guests =============
         Intent prevIntent = getIntent();
-        ArrayList<String> friendsNames = prevIntent.getStringArrayListExtra("invitedFriendsArray");
+        friendsNames = prevIntent.getStringArrayListExtra("invitedFriendsArray");
         if (friendsNames == null) {
             // Just in case we get to this activity in a strange way, better to not show invited people than to crash
             friendsNames = new ArrayList<String>();
@@ -151,6 +152,23 @@ public class NewLunchActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.lunch_invitation, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.send_invite:
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("hour", hour);
+                resultIntent.putExtra("minute", minute);
+                resultIntent.putExtra("location", locationField.getText());
+                resultIntent.putExtra("invited_friends", friendsNames);
+                resultIntent.putExtra("day", day);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

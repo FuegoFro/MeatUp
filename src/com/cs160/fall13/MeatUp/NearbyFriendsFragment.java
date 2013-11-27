@@ -1,9 +1,14 @@
 package com.cs160.fall13.MeatUp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +16,11 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NearbyFriendsFragment extends Fragment {
+
+    private final int INVITE_SENT = 1234;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -47,7 +55,7 @@ public class NearbyFriendsFragment extends Fragment {
                 }
                 Intent newLunchIntent = new Intent(getActivity(), NewLunchActivity.class);
                 newLunchIntent.putExtra("invitedFriendsArray", invitedFriends);
-                startActivity(newLunchIntent);
+                startActivityForResult(newLunchIntent, INVITE_SENT);
             }
         });
 
@@ -121,6 +129,37 @@ public class NearbyFriendsFragment extends Fragment {
             for (int i = listView.getCount() - 1; i >= 0; i--)
                 if (listView.isItemChecked(i)) count++;
             return count;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (INVITE_SENT): {
+                if (resultCode == Activity.RESULT_OK) {
+                    String location = data.getStringExtra("location");
+                    int hour = data.getIntExtra("hour", 1);
+                    int minute = data.getIntExtra("minute", 1);
+                    String day = data.getStringExtra("day");
+                    Lunch lunch = new Lunch(hour, minute, day, location);
+                    ActionBarActivity activity = (ActionBarActivity) getActivity();
+                    LunchesFragment lunchesFragment = null;
+                    for (Fragment fragment : activity.getSupportFragmentManager().getFragments()) {
+                        if (fragment instanceof LunchesFragment) {
+                            lunchesFragment = (LunchesFragment) fragment;
+                        }
+                    }
+                    if (lunchesFragment != null) {
+                        ActionBar actionBar = activity.getSupportActionBar();
+                        actionBar.getTabAt(1).select();
+                        lunchesFragment.addLunch(lunch);
+                    }
+
+                    Toast.makeText(getActivity(), "Invite Sent!", Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
         }
     }
 }
