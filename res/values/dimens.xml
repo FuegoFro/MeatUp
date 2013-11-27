@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="base_txt_size">25sp</dimen>
+    <dimen name="base_header_size">30sp</dimen>
+    <dimen name="base_header_top_padding">30sp</dimen>
+</resources>

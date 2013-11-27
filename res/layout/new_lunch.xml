@@ -7,13 +7,13 @@
               android:paddingBottom="16dp"
               android:paddingLeft="8dp"
               android:paddingRight="8dp"
-
         >
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TIME"
+            android:textSize="@dimen/base_header_size"
             android:paddingLeft="8dp"
             />
 
@@ -33,6 +33,7 @@
                 android:layout_alignParentRight="true"
                 android:width="150dp"
                 android:paddingLeft="8dp"
+                android:textSize="@dimen/base_txt_size"
                 />
 
         <TextView
@@ -41,6 +42,7 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
                 android:text="Today"
+                android:textSize="@dimen/base_txt_size"
                 android:textColor="@android:color/white"
                 android:layout_toLeftOf="@id/time_button"
                 android:paddingLeft="8dp"
@@ -53,7 +55,8 @@
             android:layout_height="wrap_content"
             android:text="LOCATION"
             android:paddingLeft="8dp"
-            android:paddingTop="16dp"
+            android:paddingTop="@dimen/base_header_top_padding"
+            android:textSize="@dimen/base_header_size"
             />
 
     <TextView
@@ -61,6 +64,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Set Location..."
+            android:textSize="@dimen/base_txt_size"
             style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
             android:paddingLeft="8dp"
             android:textColor="@color/common_signin_btn_dark_text_disabled"
@@ -71,13 +75,15 @@
             android:layout_height="wrap_content"
             android:text="GUESTS"
             android:paddingLeft="8dp"
-            android:paddingTop="16dp"
+            android:paddingTop="@dimen/base_header_top_padding"
+            android:textSize="@dimen/base_header_size"
             />
 
     <ListView
             android:id="@+id/invitedFriendsList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/base_txt_size"
             />
 
     <!-- Todo: Put in Add More Friends button-->

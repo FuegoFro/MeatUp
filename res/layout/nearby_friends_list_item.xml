@@ -13,6 +13,7 @@
               android:layout_width="wrap_content"
               android:layout_alignParentRight="true"
               android:gravity="center_vertical"
+              android:textSize="@dimen/base_txt_size"
               android:text="3 mi"
               />
 
@@ -21,7 +22,7 @@
               android:layout_width="wrap_content"
               android:layout_alignParentLeft="true"
               android:layout_toLeftOf="@id/friend_distance"
-              android:textSize="18dp"
+              android:textSize="@dimen/base_txt_size"
               android:text="Fred Jones"
               />
 

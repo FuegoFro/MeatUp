@@ -36,6 +36,8 @@
             android:layout_marginBottom="8dp"
             android:layout_toLeftOf="@id/next_suggestion_button"
             android:layout_toRightOf="@id/previous_suggestion_button"
+            android:textSize="@dimen/base_txt_size"
+            android:background="@drawable/click_button_color"
             />
 
 

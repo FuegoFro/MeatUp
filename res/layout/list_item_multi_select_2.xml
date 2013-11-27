@@ -12,7 +12,7 @@
             android:id="@id/android:text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
+            android:textSize="@dimen/base_txt_size"
             android:checkMark="@drawable/add_friend_checkmark"
             />
 
@@ -20,7 +20,7 @@
             android:id="@id/android:text2"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:textSize="14dp"
+            android:textSize="@dimen/base_txt_size"
             />
 
 </com.cs160.fall13.MeatUp.CheckableLinearLayout>
