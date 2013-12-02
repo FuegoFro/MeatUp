@@ -18,7 +18,7 @@ import android.view.MenuItem;
 //
 
 // TODO add to Manifest!   and adjust for google properties (See other manifest)
-public class SearchRestaurantActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class SearchRestaurantActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +45,7 @@ public class SearchRestaurantActivity extends FragmentActivity implements Loader
         getMenuInflater().inflate(R.menu.search, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.expandActionView();
+        onSearchRequested();
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         /* Configure the search info and add any event listeners */
         return super.onCreateOptionsMenu(menu);
@@ -63,15 +64,15 @@ public class SearchRestaurantActivity extends FragmentActivity implements Loader
         getSupportLoaderManager().restartLoader(1, data, this);
     }
 
-    @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.action_search:
-                onSearchRequested();
-                break;
-        }
-        return super.onMenuItemSelected(featureId, item);
-    }
+//    @Override
+//    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+//        switch(item.getItemId()){
+//            case R.id.action_search:
+//                onSearchRequested();
+//                break;
+//        }
+//        return super.onMenuItemSelected(featureId, item);
+//    }
 
 
     @Override
