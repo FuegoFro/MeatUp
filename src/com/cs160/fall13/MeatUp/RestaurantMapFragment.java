@@ -70,6 +70,7 @@ public class RestaurantMapFragment extends SupportMapFragment implements
             GoogleMap map = getMap();
             LatLng location = new LatLng(restaurant.getLat(), restaurant.getLon());
 
+            // TODO throw error if map is null (user may not have google play)
             map.setMyLocationEnabled(true);
             Location myLoc = map.getMyLocation();
             if (myLoc != null) {

@@ -18,6 +18,7 @@ import java.util.*;
 public class NewLunchActivity extends ActionBarActivity {
     private Calendar lunchTime;
     private TextView locationField;
+    private TextView locationSearchField;
     ArrayList<String> friendsNames;
     private boolean locationSet = false;
 
@@ -42,6 +43,16 @@ public class NewLunchActivity extends ActionBarActivity {
         }
         ListView invitedFriendsView = (ListView) findViewById(R.id.invitedFriendsList);
         invitedFriendsView.setAdapter(new InvitedFriendsAdapter(friendsNames));
+
+        // ============= Setup location search =============
+        locationSearchField = (TextView) findViewById(R.id.location_search_field);
+        locationSearchField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent(getApplicationContext(), SearchRestaurantActivity.class);
+                startActivityForResult(searchIntent, GetRecommendationActivity.RESTAURANT_SELECTED);
+            }
+        });
 
         // ============= Setup location suggestion =============
         locationField = (TextView) findViewById(R.id.location_field);
