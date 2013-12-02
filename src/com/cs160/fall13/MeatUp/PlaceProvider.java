@@ -280,14 +280,22 @@ public class PlaceProvider extends ContentProvider {
         }
 
         // Sensor enabled
-        String sensor = "sensor=false";
+        String sensor = "sensor=true";
 
 
         // place type to be searched
-        String types = "types=geocode";
+        String types = "types=establishment";
+
+        // how to rank
+        String rankby = "rankby=distance";
+
+        String lat = "37.8757";  // TODO use actual location
+        String lon = "-122.259";
+        String loc = "location=" + lat + "," + lon;
+
 
         // Building the parameters to the web service
-        String parameters = qry+"&"+types+"&"+sensor+"&"+mKey;
+        String parameters = qry+"&"+types+"&"+sensor + "&" + rankby + "&" + loc +"&"+mKey;
 
         // Output format
         String output = "json";
