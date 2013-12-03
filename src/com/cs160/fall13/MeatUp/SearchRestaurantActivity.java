@@ -1,5 +1,6 @@
 package com.cs160.fall13.MeatUp;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,16 +14,39 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 // tutorial resources: http://developer.android.com/guide/topics/search/search-dialog.html
 //
 
 // TODO add to Manifest!   and adjust for google properties (See other manifest)
 public class SearchRestaurantActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    private GoogleMap mGoogleMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_restaurant);
+
+        SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.search_map);
+        mGoogleMap = fragment.getMap();
+
+//        selectSuggestionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String name = "test choice";//restaurants[currentItem].getTitle();
+//                Intent resultIntent = new Intent();
+//                resultIntent.putExtra("restaurant_name", name);
+//                setResult(Activity.RESULT_OK, resultIntent);
+//                finish();
+//            }
+//        });
+
         handleIntent(getIntent());
     }
 
@@ -97,21 +121,20 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
     }
 
     private void showLocations(Cursor c){
-        double x = 5;
-//        MarkerOptions markerOptions = null;
-//        LatLng position = null;
-//        mGoogleMap.clear();
-//        while(c.moveToNext()){
-//            markerOptions = new MarkerOptions();
-//            position = new LatLng(Double.parseDouble(c.getString(1)),Double.parseDouble(c.getString(2)));
-//            markerOptions.position(position);
-//            markerOptions.title(c.getString(0));
-//            mGoogleMap.addMarker(markerOptions);
-//        }
-//        if(position!=null){
-//            CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(position);
-//            mGoogleMap.animateCamera(cameraPosition);
-//        }
+        MarkerOptions markerOptions = null;
+        LatLng position = null;
+        mGoogleMap.clear();
+        while(c.moveToNext()){
+            markerOptions = new MarkerOptions();
+            position = new LatLng(Double.parseDouble(c.getString(1)),Double.parseDouble(c.getString(2)));
+            markerOptions.position(position);
+            markerOptions.title(c.getString(0));
+            mGoogleMap.addMarker(markerOptions);
+        }
+        if(position!=null){
+            CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(position);
+            mGoogleMap.animateCamera(cameraPosition);
+        }
     }
 
 }

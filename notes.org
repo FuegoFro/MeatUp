@@ -13,4 +13,4 @@
 * Tutorial followed for adding location to map: http://developer.android.com/training/location/retrieve-current.html
 
 
-* Google places api
+* Note: when using the Google play services library: make sure to include it as a module dependency
