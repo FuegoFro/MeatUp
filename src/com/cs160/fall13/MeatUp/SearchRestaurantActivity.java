@@ -36,6 +36,7 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.search_map);
         mGoogleMap = fragment.getMap();
 
+          // TODO add button and return restaurant
 //        selectSuggestionButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -70,10 +71,11 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.expandActionView();
         onSearchRequested();
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        //SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         /* Configure the search info and add any event listeners */
         return super.onCreateOptionsMenu(menu);
     }
+
 
 
     private void doSearch(String query){
@@ -132,9 +134,12 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
             mGoogleMap.addMarker(markerOptions);
         }
         if(position!=null){
-            CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(position);
-            mGoogleMap.animateCamera(cameraPosition);
+            //CameraUpdate cameraPosition = ;
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(position)); // move to the restaurant
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12.0f)); // zoom into the location
         }
+        // FIXME this hack(?) allows a user to search for multiple places in a row
+        onSearchRequested();
     }
 
 }
