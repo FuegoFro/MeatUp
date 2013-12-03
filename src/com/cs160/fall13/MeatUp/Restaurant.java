@@ -1,5 +1,10 @@
 package com.cs160.fall13.MeatUp;
 
+import android.location.Location;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.Serializable;
 
 /**
@@ -12,8 +17,8 @@ public class Restaurant implements Serializable {
 
     private String title;
     private double lat,
-                   lon,
-                   rating;
+            lon,
+            rating;
     private boolean isVegatarian;
     private boolean isVegan;
 
@@ -24,6 +29,18 @@ public class Restaurant implements Serializable {
         isVegatarian = vegatarian;
         isVegan = vegan;
         this.rating = rating;
+    }
+
+    public LatLng getLatLng(){
+        return new LatLng(this.lat,this.lon);
+    }
+
+    public MarkerOptions getMarkerOptions(){
+        MarkerOptions mOpts =  new MarkerOptions();
+        mOpts.title(this.getTitle())
+                .snippet("") // FIXME how to get distance? -- or should we get it here?    -CJR
+                .position(this.getLatLng());
+        return mOpts;
     }
 
     public String getTitle() {

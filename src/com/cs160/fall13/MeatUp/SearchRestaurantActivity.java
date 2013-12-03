@@ -127,19 +127,18 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
         LatLng position = null;
         mGoogleMap.clear();
         while(c.moveToNext()){
-            markerOptions = new MarkerOptions();
-            position = new LatLng(Double.parseDouble(c.getString(1)),Double.parseDouble(c.getString(2)));
-            markerOptions.position(position);
-            markerOptions.title(c.getString(0));
+            // create a restaurant
+            Restaurant searchRes = new  Restaurant(c.getString(0), Double.parseDouble(c.getString(1)), Double.parseDouble(c.getString(2)), true, false, 4.2);
+            markerOptions = searchRes.getMarkerOptions();
             mGoogleMap.addMarker(markerOptions);
+            position = searchRes.getLatLng();
         }
         if(position!=null){
             //CameraUpdate cameraPosition = ;
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(position)); // move to the restaurant
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12.0f)); // zoom into the location
         }
-        // FIXME this hack(?) allows a user to search for multiple places in a row
-        onSearchRequested();
+        onSearchRequested(); // TODO fix this hack
     }
 
 }
