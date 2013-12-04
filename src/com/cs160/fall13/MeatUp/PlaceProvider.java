@@ -151,7 +151,7 @@ public class PlaceProvider extends ContentProvider {
 
             case DETAILS :
                 // Defining a cursor object with columns description, lat and lng
-                mCursor = new MatrixCursor(new String[] { "description","lat","lng" });
+                mCursor = new MatrixCursor(new String[] { "name", "description","lat","lng" });
 
                 detailsParser = new PlaceDetailsJSONParser();
                 jsonPlaceDetails  = getPlaceDetails(selectionArgs[0]);
@@ -164,12 +164,11 @@ public class PlaceProvider extends ContentProvider {
 
                 for(int j=0;j<detailsList.size();j++){
                     HashMap<String, String> hMapDetails = detailsList.get(j);
-                    mCursor.addRow(new String[]{ hMapDetails.get("formatted_address") , hMapDetails.get("lat") , hMapDetails.get("lng") });
+                    // hMapDetails.get("description"),
+                    mCursor.addRow(new String[]{ hMapDetails.get("name") , hMapDetails.get("formatted_address") , hMapDetails.get("lat") , hMapDetails.get("lng") });
                 }
                 c = mCursor;
                 break;
-
-
         }
 
         return c;
@@ -271,8 +270,6 @@ public class PlaceProvider extends ContentProvider {
     }
 
     private String getPlacesUrl(String qry){
-
-
         try {
             qry = "input=" + URLEncoder.encode(qry, "utf-8");
         } catch (UnsupportedEncodingException e1) {

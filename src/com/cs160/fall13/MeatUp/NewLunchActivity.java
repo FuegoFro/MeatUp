@@ -17,8 +17,9 @@ import java.util.*;
 
 public class NewLunchActivity extends ActionBarActivity {
     private Calendar lunchTime;
-    private TextView locationField;
-    private TextView locationSearchField;
+    private TextView locationField,
+                     selectedLocationField,
+                     locationSearchField;
     ArrayList<String> friendsNames;
     private boolean locationSet = false;
 
@@ -26,6 +27,9 @@ public class NewLunchActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_lunch);
+
+        // get location select textview
+        selectedLocationField = (TextView) findViewById(R.id.selected_location_text);
 
         // Initialize invitation to be next 15 minute increment
         lunchTime = Calendar.getInstance();
@@ -202,8 +206,9 @@ public class NewLunchActivity extends ActionBarActivity {
             case (GetRecommendationActivity.RESTAURANT_SELECTED): {
                 if (resultCode == Activity.RESULT_OK) {
                     String restaurantName = data.getStringExtra("restaurant_name");
-                    locationField.setText(restaurantName);
-                    locationField.setTextColor(getResources().getColor(android.R.color.white));
+                    selectedLocationField.setText(restaurantName);
+                    selectedLocationField.setTextColor(getResources().getColor(android.R.color.white));
+                    selectedLocationField.setVisibility(View.VISIBLE);
                     locationSet = true;
                 }
                 break;

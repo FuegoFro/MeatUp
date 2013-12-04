@@ -12,6 +12,20 @@
             android:layout_height="wrap_content"
             class="com.google.android.gms.maps.SupportMapFragment" />
 
+    <Button
+            android:id="@+id/select_search_restaurant_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="Select Location"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:textSize="@dimen/base_txt_size"
+            android:background="@drawable/click_button_color"
+            />
+
+
 
 </RelativeLayout>
 

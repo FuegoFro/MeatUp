@@ -60,10 +60,27 @@
             />
 
     <TextView
-            android:id="@+id/location_search_field"
-            android:layout_width="fill_parent"
+            android:id="@+id/selected_location_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search for location..."
+            android:text=""
+            android:visibility="gone"
+            android:textSize="@dimen/base_txt_size"
+            android:paddingLeft="8dp"
+            />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:weightSum="1" >
+
+    <TextView
+            android:id="@+id/location_search_field"
+            android:layout_weight="0.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="search"
             android:textSize="@dimen/base_txt_size"
             style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
             android:paddingLeft="8dp"
@@ -72,15 +89,17 @@
 
     <TextView
             android:id="@+id/location_field"
-            android:layout_width="fill_parent"
+            android:layout_weight="0.5"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Get suggestion..."
+            android:text="get suggestion"
             android:textSize="@dimen/base_txt_size"
             style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
             android:paddingLeft="8dp"
             android:textColor="@color/common_signin_btn_dark_text_disabled"
             />
 
+    </LinearLayout>
 
     <TextView
             android:layout_width="wrap_content"

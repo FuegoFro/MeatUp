@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 // tutorial resources: http://developer.android.com/guide/topics/search/search-dialog.html
@@ -28,6 +29,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 // TODO add to Manifest!   and adjust for google properties (See other manifest)
 public class SearchRestaurantActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private GoogleMap mGoogleMap;
+    private View selectPlaceButton;
+    private Restaurant currentRes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +41,17 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
         mGoogleMap = fragment.getMap();
 
           // TODO add button and return restaurant
-//        selectSuggestionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String name = "test choice";//restaurants[currentItem].getTitle();
-//                Intent resultIntent = new Intent();
-//                resultIntent.putExtra("restaurant_name", name);
-//                setResult(Activity.RESULT_OK, resultIntent);
-//                finish();
-//            }
-//        });
+        selectPlaceButton = findViewById(R.id.select_search_restaurant_button);
+        selectPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = currentRes.getTitle();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("restaurant_name", name);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
+        });
 
         handleIntent(getIntent());
     }
@@ -128,9 +133,11 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
         mGoogleMap.clear();
         while(c.moveToNext()){
             // create a restaurant
-            Restaurant searchRes = new  Restaurant(c.getString(0), Double.parseDouble(c.getString(1)), Double.parseDouble(c.getString(2)), true, false, 4.2);
+            Restaurant searchRes = new  Restaurant(c.getString(0), Double.parseDouble(c.getString(2)), Double.parseDouble(c.getString(3)), true, false, 4.2);
+            currentRes = searchRes; // TODO this does not work with multiple restaurants   FIXME how to handle?
             markerOptions = searchRes.getMarkerOptions();
-            mGoogleMap.addMarker(markerOptions);
+            Marker rinfo = mGoogleMap.addMarker(markerOptions);
+            rinfo.showInfoWindow();
             position = searchRes.getLatLng();
         }
         if(position!=null){
@@ -138,6 +145,7 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(position)); // move to the restaurant
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12.0f)); // zoom into the location
         }
+        selectPlaceButton.setVisibility(View.VISIBLE);
         onSearchRequested(); // TODO fix this hack
     }
 
