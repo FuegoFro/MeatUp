@@ -65,6 +65,8 @@
             android:layout_height="wrap_content"
             android:text=""
             android:visibility="gone"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:textSize="@dimen/base_txt_size"
             android:paddingLeft="8dp"
             />
@@ -82,6 +84,7 @@
             android:layout_height="wrap_content"
             android:text="search"
             android:textSize="@dimen/base_txt_size"
+            android:icon="@drawable/ic_action_search"
             style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
             android:paddingLeft="8dp"
             android:textColor="@color/common_signin_btn_dark_text_disabled"
