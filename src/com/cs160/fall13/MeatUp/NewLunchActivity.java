@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.*;
@@ -21,22 +22,36 @@ public class NewLunchActivity extends ActionBarActivity {
     private TextView locationSearchField;
     ArrayList<String> friendsNames;
     private boolean locationSet = false;
+    Lunch lunch;
+    boolean isEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_lunch);
 
+        Intent prevIntent = getIntent();
+        isEdit = prevIntent.getBooleanExtra("isEdit", false);
         // Initialize invitation to be next 15 minute increment
-        lunchTime = Calendar.getInstance();
-//        Calendar calendar = Calendar.getInstance();
-        int minute = lunchTime.get(Calendar.MINUTE);
-        int minutesToAdd = 15 - minute % 15;
-        lunchTime.add(Calendar.MINUTE, minutesToAdd); // Does roll over for you
+        if (isEdit) {
+            lunch = prevIntent.getParcelableExtra("lunch");
+            lunchTime = lunch.getTime();
+            locationSet = true;
+            this.setTitle("Edit Lunch");
+        } else {
+            lunchTime = Calendar.getInstance();
+            Calendar calendar = Calendar.getInstance();
+            int minute = lunchTime.get(Calendar.MINUTE);
+            int minutesToAdd = 15 - minute % 15;
+            lunchTime.add(Calendar.MINUTE, minutesToAdd); // Does roll over for you
+        }
 
         // ============= Setup list of guests =============
-        Intent prevIntent = getIntent();
-        friendsNames = prevIntent.getStringArrayListExtra("invitedFriendsArray");
+        if (!isEdit) {
+            friendsNames = prevIntent.getStringArrayListExtra("invitedFriendsArray");
+        } else {
+            friendsNames = lunch.getAttendees();
+        }
         if (friendsNames == null) {
             // Just in case we get to this activity in a strange way, better to not show invited people than to crash
             friendsNames = new ArrayList<String>();
@@ -56,6 +71,7 @@ public class NewLunchActivity extends ActionBarActivity {
 
         // ============= Setup location suggestion =============
         locationField = (TextView) findViewById(R.id.location_field);
+        if (isEdit) locationField.setText(lunch.getLocation());
         locationField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,14 +86,12 @@ public class NewLunchActivity extends ActionBarActivity {
         final TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                lunchTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                lunchTime.set(Calendar.MINUTE, minute);
-                setTimeField(timeButton, lunchTime);
+                setTime(hourOfDay, minute, timeButton);
             }
         };
         // Extract initial values for picker
         int hour = lunchTime.get(Calendar.HOUR_OF_DAY);
-        minute = lunchTime.get(Calendar.MINUTE);
+        int minute = lunchTime.get(Calendar.MINUTE);
         final TimePickerDialog timeDialog = new TimePickerDialog(this, timeSetListener, hour, minute, false);
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,29 +103,30 @@ public class NewLunchActivity extends ActionBarActivity {
         // ============= Setup date picker =============
         final TextView dateButton = (TextView) findViewById(R.id.date_button);
         final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMM dd");
+        final NumberPicker datePicker;
+        // Generate list of dates
+        int numDaysToShow = 14;
+        final String[] dateValues = new String[numDaysToShow];
+        final Date[] dates = new Date[numDaysToShow];
+        Calendar calendar = Calendar.getInstance();
+        for (int i = 0; i < numDaysToShow; i++) {
+            dates[i] = calendar.getTime();
+            // Special case today and tomorrow
+            if (i == 0) {
+                dateValues[i] = "Today";
+            } else if (i == 1) {
+                dateValues[i] = "Tomorrow";
+            } else {
+                dateValues[i] = dateFormat.format(calendar.getTime());
+            }
+            calendar.add(Calendar.DATE, 1);
+        }
         if (Build.VERSION.SDK_INT >= 11) {
             // On 3.0 and higher, create custom date picker with fewer fields that need setting
             // Setup picker view
             View dialogView = getLayoutInflater().inflate(R.layout.condensed_date_picker, null);
-            final NumberPicker datePicker = (NumberPicker) dialogView.findViewById(R.id.date_picker);
+            datePicker = (NumberPicker) dialogView.findViewById(R.id.date_picker);
 
-            // Generate list of dates
-            int numDaysToShow = 14;
-            final String[] dateValues = new String[numDaysToShow];
-            final Date[] dates = new Date[numDaysToShow];
-            Calendar calendar = Calendar.getInstance();
-            for (int i = 0; i < numDaysToShow; i++) {
-                dates[i] = calendar.getTime();
-                // Special case today and tomorrow
-                if (i == 0) {
-                    dateValues[i] = "Today";
-                } else if (i == 1) {
-                    dateValues[i] = "Tomorrow";
-                } else {
-                    dateValues[i] = dateFormat.format(calendar.getTime());
-                }
-                calendar.add(Calendar.DATE, 1);
-            }
             // Set dates on picker
             datePicker.setDisplayedValues(dateValues);
             datePicker.setMinValue(0);
@@ -165,7 +180,32 @@ public class NewLunchActivity extends ActionBarActivity {
                     dateDialog.show();
                 }
             });
+            //just for later processing
+            datePicker = null;
         }
+
+        //set the date picker to open at our new date
+        if (isEdit) {
+            Calendar time = lunch.getTime();
+            setTime(time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), timeButton);
+            setTimeField(timeButton, lunchTime);
+            Date currDate = time.getTime();
+            for (int i = 0; i < dates.length; i++) {
+               if (dates[i].getDate() == currDate.getDate() &&
+                       dates[i].getMonth() == currDate.getMonth()) {
+                   dateButton.setText(dateValues[i]);
+                   datePicker.setValue(i);
+
+                   break;
+               }
+            }
+        }
+    }
+
+    private void setTime(int hourOfDay, int minute, TextView timeButton) {
+        lunchTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        lunchTime.set(Calendar.MINUTE, minute);
+        setTimeField(timeButton, lunchTime);
     }
 
     @Override
@@ -183,9 +223,13 @@ public class NewLunchActivity extends ActionBarActivity {
                     Toast.makeText(this, "Please select a location for your meet up", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("lunch_time", lunchTime);
-                    resultIntent.putExtra("location", locationField.getText());
-                    resultIntent.putExtra("invited_friends", friendsNames);
+                    if (isEdit) {
+                        resultIntent.putExtra("updated_lunch", lunch);
+                    } else {
+                        resultIntent.putExtra("lunch_time", lunchTime);
+                        resultIntent.putExtra("location", locationField.getText());
+                        resultIntent.putExtra("invited_friends", friendsNames);
+                    }
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 }
@@ -205,6 +249,9 @@ public class NewLunchActivity extends ActionBarActivity {
                     locationField.setText(restaurantName);
                     locationField.setTextColor(getResources().getColor(android.R.color.white));
                     locationSet = true;
+                    if (isEdit) {
+                        lunch.setLocation(restaurantName);
+                    }
                 }
                 break;
             }

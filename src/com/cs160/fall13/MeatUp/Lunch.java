@@ -1,9 +1,11 @@
 package com.cs160.fall13.MeatUp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Lunch {
+public class Lunch implements Parcelable {
 
     private Calendar time;
     private String location;
@@ -36,5 +38,35 @@ public class Lunch {
 
     public void setAttendees(ArrayList<String> attendees) {
         this.attendees = attendees;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public static final Parcelable.Creator<Lunch> CREATOR = new Parcelable.Creator<Lunch>() {
+        public Lunch createFromParcel(Parcel in) {
+            return new Lunch(in);
+        }
+
+        @Override
+        public Lunch[] newArray(int i) {
+            return new Lunch[i];  //To change body of implemented methods use File | Settings | File Templates.
+        }
+    };
+
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(location);
+        parcel.writeStringList(attendees);
+        parcel.writeSerializable(time);
+    }
+
+    private Lunch(Parcel in) {
+        location = in.readString();
+        in.readStringList(attendees);
+        time = (Calendar) in.readSerializable();
     }
 }
