@@ -38,7 +38,7 @@ public class Restaurant implements Serializable {
     public MarkerOptions getMarkerOptions(){
         MarkerOptions mOpts =  new MarkerOptions();
         mOpts.title(this.getTitle())
-                .snippet("") // FIXME how to get distance? -- or should we get it here?    -CJR
+                .snippet("Determining Distance...") // FIXME how to get distance? -- or should we get it here?    -CJR
                 .position(this.getLatLng());
         return mOpts;
     }

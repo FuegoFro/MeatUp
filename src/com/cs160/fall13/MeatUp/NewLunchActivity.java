@@ -18,8 +18,9 @@ import java.util.*;
 
 public class NewLunchActivity extends ActionBarActivity {
     private Calendar lunchTime;
-    private TextView locationField;
-    private TextView locationSearchField;
+    private TextView locationField,
+                     selectedLocationField,
+                     locationSearchField;
     ArrayList<String> friendsNames;
     private boolean locationSet = false;
     Lunch lunch;
@@ -32,13 +33,17 @@ public class NewLunchActivity extends ActionBarActivity {
 
         Intent prevIntent = getIntent();
         isEdit = prevIntent.getBooleanExtra("isEdit", false);
-        // Initialize invitation to be next 15 minute increment
+
+        // get location select textview
+        selectedLocationField = (TextView) findViewById(R.id.selected_location_text);
+
         if (isEdit) {
             lunch = prevIntent.getParcelableExtra("lunch");
             lunchTime = lunch.getTime();
             locationSet = true;
             this.setTitle("Edit Lunch");
         } else {
+            // Initialize invitation to be next 15 minute increment
             lunchTime = Calendar.getInstance();
             Calendar calendar = Calendar.getInstance();
             int minute = lunchTime.get(Calendar.MINUTE);
@@ -71,7 +76,10 @@ public class NewLunchActivity extends ActionBarActivity {
 
         // ============= Setup location suggestion =============
         locationField = (TextView) findViewById(R.id.location_field);
-        if (isEdit) locationField.setText(lunch.getLocation());
+        if (isEdit) {
+            selectedLocationField.setText(lunch.getLocation());
+            selectedLocationField.setVisibility(View.VISIBLE);
+        }
         locationField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,7 +235,7 @@ public class NewLunchActivity extends ActionBarActivity {
                         resultIntent.putExtra("updated_lunch", lunch);
                     } else {
                         resultIntent.putExtra("lunch_time", lunchTime);
-                        resultIntent.putExtra("location", locationField.getText());
+                        resultIntent.putExtra("location", selectedLocationField.getText());
                         resultIntent.putExtra("invited_friends", friendsNames);
                     }
                     setResult(Activity.RESULT_OK, resultIntent);
@@ -246,8 +254,9 @@ public class NewLunchActivity extends ActionBarActivity {
             case (GetRecommendationActivity.RESTAURANT_SELECTED): {
                 if (resultCode == Activity.RESULT_OK) {
                     String restaurantName = data.getStringExtra("restaurant_name");
-                    locationField.setText(restaurantName);
-                    locationField.setTextColor(getResources().getColor(android.R.color.white));
+                    selectedLocationField.setText(restaurantName);
+                    selectedLocationField.setTextColor(getResources().getColor(android.R.color.white));
+                    selectedLocationField.setVisibility(View.VISIBLE);
                     locationSet = true;
                     if (isEdit) {
                         lunch.setLocation(restaurantName);
