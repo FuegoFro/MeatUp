@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -21,6 +22,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -47,6 +49,7 @@ public class RestaurantMapFragment extends SupportMapFragment implements
     private LocationClient mLocationClient;
     private Location mCurrentLocation;
     private Marker rinfo;
+    private String restDistFromMe, restDistFromFriends, restRating, restFactoid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,51 @@ public class RestaurantMapFragment extends SupportMapFragment implements
     private void setupMap() {
         if (restaurant != null) {
             GoogleMap map = getMap();
+
+            UiSettings uiSettings = map.getUiSettings();
+            uiSettings.setMyLocationButtonEnabled(false);
+
             LatLng location = new LatLng(restaurant.getLat(), restaurant.getLon());
+
+            // Setting a custom info window adapter for the google map
+            map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                // Use default InfoWindow frame
+                @Override
+                public View getInfoWindow(Marker arg0) {
+                    return null;
+                }
+
+                // Defines the contents of the InfoWindow
+                @Override
+                public View getInfoContents(Marker arg0) {
+
+                    // Getting view from the layout file info_window_layout
+                    View v = View.inflate(getActivity(), R.layout.windowlayout, null);
+
+
+                    // Getting reference to the TextView to set my distance
+                    TextView tvMyDist = (TextView) v.findViewById(R.id.tv_my_distance);
+                    tvMyDist.setText(restDistFromMe);
+
+                    // Getting reference to the TextView to set friends distance
+                    TextView tvFriendDist = (TextView) v.findViewById(R.id.tv_friends_distance);
+                    tvFriendDist.setText(restDistFromFriends);
+
+                    // Getting reference to the TextView to set friends distance
+                    TextView tvRating = (TextView) v.findViewById(R.id.tv_rating);
+                    tvRating.setText(restRating);
+
+                    // Getting reference to the TextView to set title
+                    TextView tvTitle = (TextView) v.findViewById(R.id.tv_title);
+                    String title = arg0.getTitle();
+                    tvTitle.setText(title);
+
+                    // Returning the view containing InfoWindow contents
+                    return v;
+
+                }
+            });
 
             // TODO throw error if map is null (user may not have google play)
             map.setMyLocationEnabled(true);
@@ -78,14 +125,12 @@ public class RestaurantMapFragment extends SupportMapFragment implements
             }
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
 
-            String distStr = "Calculating distance...";
-            if (mLocationClient.isConnected()) {
-                distStr = getDistanceToRestString();
-            }
+            restDistFromMe = "Calculating distance...";
+            restDistFromFriends = "all invited friends are within driving distance";
+            restRating = restaurant.getRating() + "/5.0 on ";
 
             rinfo = map.addMarker(new MarkerOptions()
                     .title(restaurant.getTitle())
-                    .snippet(distStr)
                     .position(location));
             rinfo.showInfoWindow();
         }
@@ -93,8 +138,8 @@ public class RestaurantMapFragment extends SupportMapFragment implements
 
     private void updateMapSnippet() {
         String distanceStr = getDistanceToRestString();
-        String dispStr = distanceStr + " (rating: " + restaurant.getRating() + "/5)";
-        rinfo.setSnippet(dispStr);
+        restDistFromMe = "(" + distanceStr + " from your location)";
+        restDistFromFriends = "all invited friends are within " + distanceStr;
         rinfo.showInfoWindow();
     }
 
@@ -110,7 +155,7 @@ public class RestaurantMapFragment extends SupportMapFragment implements
                 distMeas = "miles";
             }
         }
-        return String.format("%.1f %s away", dist, distMeas);
+        return String.format("%.1f %s", dist, distMeas);
     }
 
     /*
