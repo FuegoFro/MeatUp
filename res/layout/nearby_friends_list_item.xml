@@ -8,6 +8,15 @@
               android:background="@drawable/add_friend_background"
         >
 
+    <ImageView android:id="@+id/prof_pic"
+               android:layout_height="30dp"
+               android:layout_width="30dp"
+               android:src="@drawable/towelie"
+               android:paddingRight="10dp"
+               android:layout_alignParentLeft="true"
+               android:contentDescription="user picture"
+              />
+
     <TextView android:id="@+id/friend_distance"
               android:layout_height="match_parent"
               android:layout_width="wrap_content"
@@ -20,8 +29,7 @@
     <TextView android:id="@+id/friend_name"
               android:layout_height="wrap_content"
               android:layout_width="wrap_content"
-              android:layout_alignParentLeft="true"
-              android:layout_toLeftOf="@id/friend_distance"
+              android:layout_toRightOf="@id/prof_pic"
               android:textSize="@dimen/base_txt_size"
               android:text="Fred Jones"
               />
