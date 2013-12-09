@@ -3,18 +3,14 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingTop="16dp"
               android:paddingBottom="16dp"
               android:paddingLeft="8dp"
               android:paddingRight="8dp"
         >
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/header"
             android:text="TIME"
-            android:textSize="@dimen/base_header_size"
-            android:paddingLeft="8dp"
             />
 
     <RelativeLayout
@@ -24,39 +20,25 @@
             >
 
         <TextView
+                style="@style/field"
                 android:id="@+id/time_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
-                android:text="12:30PM"
-                android:textColor="@android:color/white"
+                android:layout_width="150dp"
                 android:layout_alignParentRight="true"
-                android:width="150dp"
-                android:paddingLeft="8dp"
-                android:textSize="@dimen/base_txt_size"
+                android:text="12:30PM"
                 />
 
         <TextView
+                style="@style/field"
                 android:id="@+id/date_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
-                android:text="Today"
-                android:textSize="@dimen/base_txt_size"
-                android:textColor="@android:color/white"
                 android:layout_toLeftOf="@id/time_button"
-                android:paddingLeft="8dp"
+                android:text="Today"
                 />
 
     </RelativeLayout>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/header"
             android:text="LOCATION"
-            android:paddingLeft="8dp"
-            android:paddingTop="@dimen/base_header_top_padding"
-            android:textSize="@dimen/base_header_size"
             />
 
     <TextView
@@ -75,42 +57,29 @@
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal"
-                  android:weightSum="1" >
+                  android:weightSum="1">
 
-    <TextView
-            android:id="@+id/location_search_field"
-            android:layout_weight="0.5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="search"
-            android:textSize="@dimen/base_txt_size"
-            android:icon="@drawable/ic_action_search"
-            style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
-            android:paddingLeft="8dp"
-            android:textColor="@color/common_signin_btn_dark_text_disabled"
-            />
+        <TextView
+                style="@style/field"
+                android:id="@+id/location_search_field"
+                android:layout_weight="0.5"
+                android:textColor="@color/common_signin_btn_dark_text_disabled"
+                android:text="Search"
+                />
 
-    <TextView
-            android:id="@+id/location_field"
-            android:layout_weight="0.5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="get suggestion"
-            android:textSize="@dimen/base_txt_size"
-            style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
-            android:paddingLeft="8dp"
-            android:textColor="@color/common_signin_btn_dark_text_disabled"
-            />
+        <TextView
+                style="@style/field"
+                android:id="@+id/location_field"
+                android:layout_weight="0.5"
+                android:textColor="@color/common_signin_btn_dark_text_disabled"
+                android:text="Get suggestion"
+                />
 
     </LinearLayout>
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/header"
             android:text="GUESTS"
-            android:paddingLeft="8dp"
-            android:paddingTop="@dimen/base_header_top_padding"
-            android:textSize="@dimen/base_header_size"
             />
 
     <ListView

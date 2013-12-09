@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="8dp"
+              android:paddingRight="8dp"
+        >
+
+    <TextView
+            style="@style/header"
+            android:text="TYPICAL LUNCH TIME"
+            />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <TextView
+                android:id="@+id/to_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="to"
+                android:textSize="18dp"
+                android:padding="8dp"
+                android:layout_centerInParent="true"
+                />
+
+        <TextView
+                style="@style/field"
+                android:id="@+id/lunch_start_time"
+                android:text="11:15AM"
+                android:layout_toLeftOf="@id/to_divider"
+                />
+
+
+        <TextView
+                style="@style/field"
+                android:id="@+id/lunch_end_time"
+                android:text="2:30PM"
+                android:layout_toRightOf="@id/to_divider"
+                />
+
+    </RelativeLayout>
+
+    <TextView
+            style="@style/header"
+            android:text="Food Preferences"
+            />
+
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/food_preferences_list"
+            />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add food preference"
+            android:textSize="18dp"
+            android:textColor="@android:color/white"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="4dp"
+            android:paddingRight="4dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/ic_action_add"
+            android:background="@drawable/abc_list_selector_holo_dark"
+            />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <CheckBox
+                android:id="@+id/vegetarian_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/base_header_top_padding"
+                />
+
+        <TextView
+                style="@style/header"
+                android:text="Vegetarian"
+                android:layout_toLeftOf="@id/vegetarian_toggle"
+                android:layout_alignParentLeft="true"
+                />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

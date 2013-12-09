@@ -32,6 +32,14 @@ public class MainTabsActivity extends ActionBarActivity {
                 return true;
             }
         });
+        menu.findItem(R.id.action_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 }

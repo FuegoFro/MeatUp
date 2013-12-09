@@ -100,6 +100,16 @@
                        android:resource="@xml/searchable"/>
         </activity>
 
+        <activity
+                android:name=".SettingsActivity"
+                android:label="Settings"
+                android:parentActivityName=".MainTabsActivity"
+                >
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainTabsActivity"/>
+        </activity>
+
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
                 android:value="AIzaSyA88edINI0-thfFYWYU5oYdHVqciW5sK1s"/>

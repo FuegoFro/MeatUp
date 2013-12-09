@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.*;
@@ -141,6 +140,7 @@ public class NewLunchActivity extends ActionBarActivity {
             datePicker.setMaxValue(numDaysToShow - 1);
             datePicker.setValue(0);
             datePicker.setWrapSelectorWheel(false);
+            datePicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
             // Create dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
