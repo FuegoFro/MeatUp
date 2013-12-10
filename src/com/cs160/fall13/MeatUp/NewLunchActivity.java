@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.*;
@@ -208,6 +209,23 @@ public class NewLunchActivity extends ActionBarActivity {
                }
             }
         }
+
+        //add friends button
+        TextView inviteMore = (TextView) findViewById(R.id.invite_more);
+        inviteMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               showAddFriendsDialog();
+            }
+        });
+    }
+
+    private void showAddFriendsDialog () {
+        AddFriendsDialog addFriendsDialog = new AddFriendsDialog();
+        for (int i = 0; i < friendsNames.size(); i++) {
+            addFriendsDialog.removeAlreadyInvited(friendsNames);
+        }
+        addFriendsDialog.show(getSupportFragmentManager(), "Invite More Friends");
     }
 
     private void setTime(int hourOfDay, int minute, TextView timeButton) {
@@ -297,6 +315,7 @@ public class NewLunchActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     remove(name);
+                    friendsNames.remove(name);
                 }
             });
             nameField.setText(name);

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:paddingBottom="16dp"
-              android:paddingLeft="8dp"
-              android:paddingRight="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         >
 
     <TextView
@@ -85,10 +85,25 @@
     <ListView
             android:id="@+id/invitedFriendsList"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:textSize="@dimen/base_txt_size"
+            android:layout_weight="1"
             />
 
-    <!-- Todo: Put in Add More Friends button-->
-
+    <TextView
+            android:id="@+id/invite_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invite more friends"
+            android:textSize="18dp"
+            android:textColor="@android:color/white"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="4dp"
+            android:paddingRight="4dp"
+            android:clickable="true"
+            android:drawableLeft="@drawable/ic_action_add"
+            android:background="@drawable/abc_list_selector_holo_dark"
+            />
 </LinearLayout>
