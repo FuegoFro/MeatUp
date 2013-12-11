@@ -52,8 +52,8 @@ public class LunchManager {
 
     private static Set<Integer> getLunchIds(SharedPreferences preferences) {
         // Hack to store sets/lists of objects on gingerbread
-        String lunchIdStrings = preferences.getString(LUNCHES_SET, null);
-        if (lunchIdStrings == null) {
+        String lunchIdStrings = preferences.getString(LUNCHES_SET, "");
+        if (lunchIdStrings.isEmpty()) {
             return new HashSet<Integer>();
         }
         String[] splitLunchIdStrings = lunchIdStrings.split(LUNCH_ID_DELIM);
