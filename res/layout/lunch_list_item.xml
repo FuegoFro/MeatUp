@@ -22,8 +22,6 @@
               android:layout_width="wrap_content"
               android:textSize="@dimen/base_txt_size"
               android:text="Fred Jones"
-              android:drawableLeft="@drawable/towelie"
-              android:drawablePadding="10dp"
               />
 
 </com.cs160.fall13.MeatUp.CheckableRelativeLayout>

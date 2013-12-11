@@ -6,15 +6,6 @@
                 android:padding="8dp"
         >
 
-
-    <ImageView android:id="@+id/prof_pic"
-               android:layout_height="30dp"
-               android:layout_width="30dp"
-               android:src="@drawable/towelie"
-               android:paddingRight="10dp"
-               android:layout_alignParentLeft="true"
-               android:contentDescription="user picture"
-              />
     <ImageView
             android:id="@+id/remove_friend_button"
             android:layout_width="wrap_content"
@@ -31,8 +22,9 @@
             android:textSize="@dimen/base_txt_size"
             android:text="Bob Dole"
             android:layout_toLeftOf="@id/remove_friend_button"
-            android:layout_toRightOf="@id/prof_pic"
             android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/towelie"
+            android:drawablePadding="10dp"
             />
 
 
