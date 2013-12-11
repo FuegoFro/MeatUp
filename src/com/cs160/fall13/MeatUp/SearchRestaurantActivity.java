@@ -82,7 +82,6 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
     }
 
 
-
     private void doSearch(String query){
         Bundle data = new Bundle();
         data.putString("query", query);
@@ -114,7 +113,6 @@ public class SearchRestaurantActivity extends ActionBarActivity implements Loade
         else if(arg0==1)
             cLoader = new CursorLoader(getBaseContext(), PlaceProvider.DETAILS_URI, null, null, new String[]{ query.getString("query") }, null);
         return cLoader;
-
     }
 
     @Override

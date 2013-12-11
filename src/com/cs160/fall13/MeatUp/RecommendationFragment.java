@@ -13,6 +13,8 @@ public class RecommendationFragment extends Fragment {
 
     public static final String RESTAURANT_ARGUMENT_KEY = "restaurant argument key";
     private Restaurant restaurant;
+    private SupportMapFragment mapFragment;
+    private String friend;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -20,8 +22,14 @@ public class RecommendationFragment extends Fragment {
         View root = inflater.inflate(R.layout.get_recommendation, container, false);
         TextView tv = (TextView) root.findViewById(R.id.locName);
         tv.setText(restaurant.getTitle());
+        TextView yelpTV = (TextView) root.findViewById(R.id.tv_yelp_rating_rec);
+        yelpTV.setText(restaurant.getRating() + " on ");
+        TextView friendRecTV = (TextView) root.findViewById(R.id.loc_rest_factoid_rec);
+        friendRecTV.setText(String.format("one of %s's favorite places!", friend));
+        // now choose which friends like the restaurant -- need list of friends -- hows the rest passed in?
 
-        SupportMapFragment mapFragment = new RestaurantMapFragment();
+
+        mapFragment = new RestaurantMapFragment();
         Bundle args = new Bundle();
         args.putSerializable(RESTAURANT_ARGUMENT_KEY, restaurant);
         mapFragment.setArguments(args);
@@ -33,8 +41,16 @@ public class RecommendationFragment extends Fragment {
         return root;
     }
 
+    public SupportMapFragment getMapFragment() {
+        return mapFragment;
+    }
+
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public void setFriendName(String friend) {
+        this.friend = friend;
     }
 
 }

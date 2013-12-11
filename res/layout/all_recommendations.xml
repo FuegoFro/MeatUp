@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/rec_map_rl"
         >
 
     <ImageView
@@ -47,6 +52,81 @@
             android:layout_height="match_parent"
             android:layout_above="@id/select_restaurant_button"
             />
+</RelativeLayout>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:padding="32dp"
+                android:id="@+id/search_map_rl"
+        >
+
+
+    <Button
+            android:id="@+id/select_restaurant_button_search"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Restaurant"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/base_txt_size"
+            android:background="@drawable/click_button_color"
+            />
+
+    <TextView
+            android:id="@+id/locName_search"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal"
+            android:textSize="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="Burger Place"/>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@id/locName_search"
+                    android:gravity="center"
+                    android:layout_marginBottom="8dp"
+                    android:id="@+id/yelp_rl">
+
+        <TextView
+                android:id="@+id/tv_yelp_rating_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/yelp_logo"
+                android:text="4.0/5 on "
+                android:paddingBottom="2sp"
+                android:textSize="20sp"
+                android:textColor="#787274"/>
+
+        <ImageView
+                android:id="@+id/yelp_logo_search"
+                android:layout_width="50sp"
+                android:layout_height="30sp"
+                android:src="@drawable/yelp"
+                android:layout_toRightOf="@id/tv_yelp_rating_search"
+                android:contentDescription="yelp logo"
+                android:gravity="top"
+                />
+    </RelativeLayout>
+
+
+    <fragment
+        android:id="@+id/search_map_rec"
+        android:layout_above="@id/select_restaurant_button_search"
+        android:layout_below="@id/yelp_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="com.google.android.gms.maps.SupportMapFragment" />
+
 
 </RelativeLayout>
 
+</LinearLayout>

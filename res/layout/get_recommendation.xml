@@ -15,6 +15,47 @@
             android:layout_marginBottom="8dp"
             android:text="Burger Place"/>
 
+    <TextView
+            android:id="@+id/loc_rest_factoid_rec"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"
+            android:text="one of Colorado's favorite restaurants!"
+            android:textColor="#787274"/>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:id="@+id/yelp_rl">
+
+        <TextView
+                android:id="@+id/tv_yelp_rating_rec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/yelp_logo_search"
+                android:text="4.0/5 on "
+                android:paddingBottom="2sp"
+                android:textSize="20sp"
+                android:textColor="#787274"/>
+
+        <ImageView
+                android:id="@+id/yelp_logo_search"
+                android:layout_width="50sp"
+                android:layout_height="30sp"
+                android:src="@drawable/yelp"
+                android:layout_toRightOf="@id/tv_yelp_rating_rec"
+                android:contentDescription="yelp logo"
+                android:gravity="top"
+                />
+    </RelativeLayout>
+
+
+
     <FrameLayout
             android:id="@+id/map_container"
             android:layout_height="fill_parent"

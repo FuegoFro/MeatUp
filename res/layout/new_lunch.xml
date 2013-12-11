@@ -53,29 +53,12 @@
             android:paddingLeft="8dp"
             />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:weightSum="1">
-
-        <TextView
-                style="@style/field"
-                android:id="@+id/location_search_field"
-                android:layout_weight="0.5"
-                android:textColor="@color/common_signin_btn_dark_text_disabled"
-                android:text="Search"
-                />
-
-        <TextView
-                style="@style/field"
-                android:id="@+id/location_field"
-                android:layout_weight="0.5"
-                android:textColor="@color/common_signin_btn_dark_text_disabled"
-                android:text="Get suggestion"
-                />
-
-    </LinearLayout>
+    <TextView
+            style="@style/field"
+            android:id="@+id/location_field"
+            android:textColor="@color/common_signin_btn_dark_text_disabled"
+            android:text="Select restaurant"
+            />
 
     <TextView
             style="@style/header"

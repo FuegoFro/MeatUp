@@ -93,7 +93,6 @@ public class RestaurantMapFragment extends SupportMapFragment implements
                     // Getting view from the layout file info_window_layout
                     View v = View.inflate(getActivity(), R.layout.windowlayout, null);
 
-
                     // Getting reference to the TextView to set my distance
                     TextView tvMyDist = (TextView) v.findViewById(R.id.tv_my_distance);
                     tvMyDist.setText(restDistFromMe);
@@ -103,8 +102,8 @@ public class RestaurantMapFragment extends SupportMapFragment implements
                     tvFriendDist.setText(restDistFromFriends);
 
                     // Getting reference to the TextView to set friends distance
-                    TextView tvRating = (TextView) v.findViewById(R.id.tv_rating);
-                    tvRating.setText(restRating);
+                    //TextView tvRating = (TextView) v.findViewById(R.id.tv_rating);
+                    //tvRating.setText(restRating);
 
                     // Getting reference to the TextView to set title
                     TextView tvTitle = (TextView) v.findViewById(R.id.tv_title);
@@ -137,18 +136,22 @@ public class RestaurantMapFragment extends SupportMapFragment implements
     }
 
     private void updateMapSnippet() {
-        String distanceStr = getDistanceToRestString();
+        String distanceStr = getDistanceToRestString(restLoc);
         restDistFromMe = "(" + distanceStr + " from your location)";
         restDistFromFriends = "all invited friends are within " + distanceStr;
         rinfo.showInfoWindow();
     }
 
-    private String getDistanceToRestString() {
+    public Location getCurrentLocation(){
+        return mCurrentLocation;
+    }
+
+    public String getDistanceToRestString(Location rLoc) {
         double dist = -1;
         String distMeas = "meters";
 
-        if (mCurrentLocation != null && restLoc != null){
-            dist = mCurrentLocation.distanceTo(restLoc);
+        if (mCurrentLocation != null && rLoc != null){
+            dist = mCurrentLocation.distanceTo(rLoc);
 
             if (dist > 500){
                 dist *= 6.21371e-4;     // meters to miles

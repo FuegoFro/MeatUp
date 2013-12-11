@@ -35,6 +35,14 @@ public class Restaurant implements Serializable {
         return new LatLng(this.lat,this.lon);
     }
 
+    public Location getLocation(){
+        // TODO cache me
+        Location retLoc = new Location(title);
+        retLoc.setLatitude(lat);
+        retLoc.setLongitude(lon);
+        return retLoc;
+    }
+
     public MarkerOptions getMarkerOptions(){
         MarkerOptions mOpts =  new MarkerOptions();
         mOpts.title(this.getTitle())

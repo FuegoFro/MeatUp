@@ -1,17 +1,35 @@
 package com.cs160.fall13.MeatUp;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.ComponentName;
+import android.support.v4.app.*;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class GetRecommendationActivity extends ActionBarActivity {
+import java.util.ArrayList;
+import java.util.Random;
+
+public class GetRecommendationActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final int NUM_PAGES = 10;
     private ViewPager pager;
@@ -35,15 +53,71 @@ public class GetRecommendationActivity extends ActionBarActivity {
     private View previousSuggestionButton;
     private View nextSuggestionButton;
     private View selectSuggestionButton;
+    private View searchMapRL;
+    private View recMapRL;
+    private GoogleMap searchGMap;
+    private Restaurant currentRes;
+    private View selectPlaceButton;
     public static final int RESTAURANT_SELECTED = 1;
+    private TextView locNameTV;
+    private TextView tvRating;
+    private String restDistFromMe, restDistFromFriends;
+    private Double curRating = 3.5;
+    private ArrayList<String> friends;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_recommendations);
+        Intent intent = getIntent();
+        friends = intent.getStringArrayListExtra("friends");
+
+        // initiate friends
 
 
-        // mCurrentLocation = mLocationClient.getLastLocation();
+        SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.search_map_rec);
+        searchGMap = fragment.getMap();
+
+        // Setting a custom info window adapter for the google map
+        searchGMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(Marker arg0) {
+
+                // Getting view from the layout file info_window_layout
+                View v = View.inflate(GetRecommendationActivity.this, R.layout.windowlayout, null);
+
+                // Getting reference to the TextView to set my distance
+                TextView tvMyDist = (TextView) v.findViewById(R.id.tv_my_distance);
+                tvMyDist.setText(restDistFromMe);
+
+                // Getting reference to the TextView to set friends distance
+                TextView tvFriendDist = (TextView) v.findViewById(R.id.tv_friends_distance);
+                tvFriendDist.setText(restDistFromFriends);
+
+                // Getting reference to the TextView to set title
+                TextView tvTitle = (TextView) v.findViewById(R.id.tv_title);
+                String title = arg0.getTitle();
+                tvTitle.setText(title);
+
+                // Returning the view containing InfoWindow contents
+                return v;
+
+            }
+        });
+
+        // get title of search view
+        locNameTV = (TextView) findViewById(R.id.locName_search);
+        tvRating =  (TextView) findViewById(R.id.tv_yelp_rating_search);
+
 
         pager = (ViewPager) findViewById(R.id.all_recommendations);
         final PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -53,8 +127,25 @@ public class GetRecommendationActivity extends ActionBarActivity {
         nextSuggestionButton = findViewById(R.id.next_suggestion_button);
         selectSuggestionButton = findViewById(R.id.select_restaurant_button);
 
+        // select restaurant in search mode
+        selectPlaceButton = findViewById(R.id.select_restaurant_button_search);
+        selectPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = currentRes.getTitle();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("restaurant_name", name);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
+        });
+
         // Initializing at the beginning of the list of restaurants, hide the previous button
         previousSuggestionButton.setVisibility(View.INVISIBLE);
+
+        // grab the other map object
+        searchMapRL = findViewById(R.id.search_map_rl);
+        recMapRL = findViewById(R.id.rec_map_rl);
 
         previousSuggestionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +218,117 @@ public class GetRecommendationActivity extends ActionBarActivity {
             public void onPageScrollStateChanged(int i) {
             }
         });
+
+        handleIntent(getIntent());
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int arg0, Bundle query) {
+        CursorLoader cLoader = null;
+        if(arg0==0)
+            cLoader = new CursorLoader(getBaseContext(), PlaceProvider.SEARCH_URI, null, null, new String[]{ query.getString("query") }, null);
+        else if(arg0==1)
+            cLoader = new CursorLoader(getBaseContext(), PlaceProvider.DETAILS_URI, null, null, new String[]{ query.getString("query") }, null);
+        return cLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+        showLocations(c);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> arg0) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        ComponentName componentName = new ComponentName(this, GetRecommendationActivity.class);
+        SearchableInfo searchableInfo = searchManager.getSearchableInfo(componentName);
+        searchView.setSearchableInfo(searchableInfo);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if(Intent.ACTION_SEARCH.equals(intent.getAction())){
+            doSearch(intent.getStringExtra(SearchManager.QUERY));
+        }else if(Intent.ACTION_VIEW.equals(intent.getAction())){
+            getPlace(intent.getStringExtra(SearchManager.EXTRA_DATA_KEY));
+        }
+    }
+
+    private void doSearch(String query){
+        Bundle data = new Bundle();
+        data.putString("query", query);
+        getSupportLoaderManager().restartLoader(0, data, this);
+    }
+
+    private void getPlace(String query){
+        Bundle data = new Bundle();
+        data.putString("query", query);
+        getSupportLoaderManager().restartLoader(1, data, this);
+    }
+
+
+    private void showLocations(Cursor c){
+        MarkerOptions markerOptions = null;
+        LatLng position = null;
+        searchGMap.clear();
+        Marker rinfo;
+
+        // access fragment methods (ugh)
+        RestaurantMapFragment rfrag = new RestaurantMapFragment();
+        for ( Fragment frag : this.getSupportFragmentManager().getFragments() ){
+            if (frag instanceof RecommendationFragment){
+                rfrag = (RestaurantMapFragment) ((RecommendationFragment) frag).getMapFragment();
+                if (rfrag.getCurrentLocation() != null){
+                    break;
+                }
+            }
+        }
+
+        while(c.moveToNext()){
+        // create a restaurant
+        Restaurant searchRes;
+            if (c.getColumnCount() >= 4){
+                searchRes = new  Restaurant(c.getString(0), Double.parseDouble(c.getString(2)), Double.parseDouble(c.getString(3)), true, false, 4.2);
+            } else {
+                searchRes = new  Restaurant(c.getString(0), 37.878695, -122.268545, true, false, 4.0);
+            }
+            currentRes = searchRes; // TODO this does not work with multiple restaurants   FIXME how to handle?
+            String distString = rfrag.getDistanceToRestString(searchRes.getLocation());
+            markerOptions = searchRes.getMarkerOptions();
+            restDistFromMe = distString + " from your location";
+            restDistFromFriends = "all invited friends are within " + distString;
+            // Set the rating
+            curRating = ((new Random()).nextFloat()*2.0 + 3.0);
+            tvRating.setText(String.format("%.1f/5.0 on ", curRating));
+
+            rinfo = searchGMap.addMarker(markerOptions);
+            position = searchRes.getLatLng();
+            locNameTV.setText(currentRes.getTitle());
+            if(position != null){
+                //CameraUpdate cameraPosition = ;
+                searchGMap.animateCamera(CameraUpdateFactory.newLatLng(position)); // move to the restaurant
+                searchGMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 12.0f)); // zoom into the location
+                rinfo.showInfoWindow();
+            }
+        }
+
+        recMapRL.setVisibility(View.GONE);
+        searchMapRL.setVisibility(View.VISIBLE);
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -138,6 +340,9 @@ public class GetRecommendationActivity extends ActionBarActivity {
         public Fragment getItem(int position) {
             RecommendationFragment recommendationFragment = new RecommendationFragment();
             recommendationFragment.setRestaurant(restaurants[position]);
+            Random generator = new Random();
+            int i = generator.nextInt(friends.size());
+            recommendationFragment.setFriendName(friends.get(i)); // TODO choose a random friend
             return recommendationFragment;
         }
 
@@ -147,6 +352,7 @@ public class GetRecommendationActivity extends ActionBarActivity {
         }
 
     }
+
 
     private class ButtonUpdater extends ViewPager.SimpleOnPageChangeListener {
 

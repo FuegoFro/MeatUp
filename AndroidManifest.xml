@@ -71,10 +71,23 @@
                 android:name=".GetRecommendationActivity"
                 android:label="Recommend a Restaurant"
                 android:parentActivityName=".NewLunchActivity"
+                android:launchMode="singleTop"
                 >
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".NewLunchActivity"/>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <!-- Points to searchable activity -->
+            <meta-data android:name="android.app.default_searchable"
+                       android:value=".GetRecommendationActivity" />
+
+            <!-- Points to searchable meta data -->
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable"/>
         </activity>
 
         <activity

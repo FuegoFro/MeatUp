@@ -18,9 +18,7 @@ import java.util.*;
 
 public class NewLunchActivity extends ActionBarActivity {
     private Calendar lunchTime;
-    private TextView locationField,
-                     selectedLocationField,
-                     locationSearchField;
+    private TextView locationField;
     ArrayList<String> friendsNames;
     private boolean locationSet = false;
     Lunch lunch;
@@ -33,9 +31,6 @@ public class NewLunchActivity extends ActionBarActivity {
 
         Intent prevIntent = getIntent();
         isEdit = prevIntent.getBooleanExtra("isEdit", false);
-
-        // get location select textview
-        selectedLocationField = (TextView) findViewById(R.id.selected_location_text);
 
         if (isEdit) {
             lunch = prevIntent.getParcelableExtra("lunch");
@@ -64,26 +59,17 @@ public class NewLunchActivity extends ActionBarActivity {
         ListView invitedFriendsView = (ListView) findViewById(R.id.invitedFriendsList);
         invitedFriendsView.setAdapter(new InvitedFriendsAdapter(friendsNames));
 
-        // ============= Setup location search =============
-        locationSearchField = (TextView) findViewById(R.id.location_search_field);
-        locationSearchField.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent searchIntent = new Intent(getApplicationContext(), SearchRestaurantActivity.class);
-                startActivityForResult(searchIntent, GetRecommendationActivity.RESTAURANT_SELECTED);
-            }
-        });
-
         // ============= Setup location suggestion =============
         locationField = (TextView) findViewById(R.id.location_field);
         if (isEdit) {
-            selectedLocationField.setText(lunch.getLocation());
-            selectedLocationField.setVisibility(View.VISIBLE);
+            locationField.setText(lunch.getLocation());
+            locationField.setVisibility(View.VISIBLE);
         }
         locationField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent recommendationIntent = new Intent(getApplicationContext(), GetRecommendationActivity.class);
+                recommendationIntent.putExtra("friends", friendsNames);
                 startActivityForResult(recommendationIntent, GetRecommendationActivity.RESTAURANT_SELECTED);
             }
         });
@@ -253,7 +239,7 @@ public class NewLunchActivity extends ActionBarActivity {
                         resultIntent.putExtra("updated_lunch", lunch);
                     } else {
                         resultIntent.putExtra("lunch_time", lunchTime);
-                        resultIntent.putExtra("location", selectedLocationField.getText());
+                        resultIntent.putExtra("location", locationField.getText());
                         resultIntent.putExtra("invited_friends", friendsNames);
                     }
                     setResult(Activity.RESULT_OK, resultIntent);
@@ -272,9 +258,9 @@ public class NewLunchActivity extends ActionBarActivity {
             case (GetRecommendationActivity.RESTAURANT_SELECTED): {
                 if (resultCode == Activity.RESULT_OK) {
                     String restaurantName = data.getStringExtra("restaurant_name");
-                    selectedLocationField.setText(restaurantName);
-                    selectedLocationField.setTextColor(getResources().getColor(android.R.color.white));
-                    selectedLocationField.setVisibility(View.VISIBLE);
+                    locationField.setText(restaurantName);
+                    locationField.setTextColor(getResources().getColor(android.R.color.white));
+                    locationField.setVisibility(View.VISIBLE);
                     locationSet = true;
                     if (isEdit) {
                         lunch.setLocation(restaurantName);
