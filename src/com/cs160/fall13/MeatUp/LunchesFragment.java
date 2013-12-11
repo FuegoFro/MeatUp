@@ -62,15 +62,16 @@ public class LunchesFragment extends Fragment {
         Context ctx = getActivity();
         List<Lunch> allLunches = LunchManager.getLunches(ctx);
         List<Lunch> lunches = new ArrayList<Lunch>();
-        Calendar now = Calendar.getInstance();
-        for (Lunch lunch : allLunches) {
-            if (now.compareTo(lunch.getTime()) >= 0) {
-                // The lunch is in the past
-                LunchManager.removeLunch(ctx, lunch.getId());
-            } else {
-                lunches.add(lunch);
-            }
-        }
+//        Calendar now = Calendar.getInstance();
+//        for (Lunch lunch : allLunches) {
+//            if (now.compareTo(lunch.getTime()) >= 0) {
+//                // The lunch is in the past
+//                LunchManager.removeLunch(ctx, lunch.getId());
+//            } else {
+//                lunches.add(lunch);
+//            }
+//        }
+        lunches = allLunches;
 
         Collections.sort(lunches, new Comparator<Lunch>() {
             @Override

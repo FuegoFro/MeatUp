@@ -36,6 +36,7 @@ public class NearbyFriendsFragment extends Fragment {
 
         // Hardcoded list of nearby friends for now
         NearbyFriend[] friends = new NearbyFriend[]{
+                new NearbyFriend("David", "< 5 mi"),
                 new NearbyFriend("Colorado", "< 5 mi"),
                 new NearbyFriend("Avi", "< 5 mi"),
                 new NearbyFriend("Danny", "5 - 10 mi"),
@@ -169,6 +170,7 @@ public class NearbyFriendsFragment extends Fragment {
             nameToPicture.put("Colorado", R.drawable.colorado);
             nameToPicture.put("Danny", R.drawable.danny);
             nameToPicture.put("Daniel", R.drawable.daniel);
+            nameToPicture.put("David", R.drawable.david);
         }
 
         @Override

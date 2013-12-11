@@ -34,10 +34,10 @@ public class GetRecommendationActivity extends ActionBarActivity implements Load
     private static final int NUM_PAGES = 10;
     private ViewPager pager;
     private Restaurant[] restaurants = {
-            new Restaurant("La Val's", 37.8755322, -122.2603641, true, true, 4),
-            new Restaurant("The Cheese Board", 37.8799915, -122.2694861, true, true, 4.5),
+//            new Restaurant("La Val's", 37.8755322, -122.2603641, true, true, 4),
             new Restaurant("Herbivore", 37.864683, -122.266847, true, true, 3.5),
             new Restaurant("Saturn Cafe", 37.8697487, -122.2660694, true, true, 3.5),
+            new Restaurant("The Cheese Board", 37.8799915, -122.2694861, true, true, 4.5),
             new Restaurant("Cafe Gratitude", 37.8759474, -122.269075, true, true, 3.5),
             new Restaurant("Udupi Palace", 37.8717547, -122.2728575, true, true, 4),
             new Restaurant("Urbann Turbann", 37.8752509, -122.2602815, true, true, 4),

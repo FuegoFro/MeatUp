@@ -1,5 +1,6 @@
 package com.cs160.fall13.MeatUp;
 
+import android.util.Log;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -11,7 +12,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ServerAccess {
-    private static final String SERVER_ADDRESS = "http://10.142.7.133:5000";
+//    private static final String SERVER_ADDRESS = "http://10.142.7.133:5000";
+    private static final String SERVER_ADDRESS = "http://192.168.1.90:5000";
     private static final String UPDATE_PATH = "/update";
 
     public static String getUpdateFromServer(String identifier) {
@@ -31,7 +33,7 @@ public class ServerAccess {
                 throw new IOException(statusLine.getReasonPhrase());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("RendezfoodServerInterface", "Unable to poll server");
             return null;
         }
     }
