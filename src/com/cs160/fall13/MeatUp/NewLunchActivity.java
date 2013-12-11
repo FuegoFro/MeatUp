@@ -268,7 +268,7 @@ public class NewLunchActivity extends ActionBarActivity {
                     }
                     setResult(Activity.RESULT_OK, resultIntent);
                     HttpAsyncTask httpAsyncTask = new HttpAsyncTask();
-                    lunch = new Lunch(lunchTime, selectedLocationField.getText().toString(), friendsNames, lunchId);
+                    lunch = new Lunch(lunchTime, locationField.getText().toString(), friendsNames, lunchId);
                     httpAsyncTask.lunch = lunch;
                     httpAsyncTask.execute("http://10.10.81.102:5000/new_or_edit_lunch");
                     finish();
