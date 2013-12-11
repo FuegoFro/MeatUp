@@ -20,7 +20,6 @@
     <TextView android:id="@+id/friend_name"
               android:layout_height="wrap_content"
               android:layout_width="wrap_content"
-              android:layout_toRightOf="@id/prof_pic"
               android:textSize="@dimen/base_txt_size"
               android:text="Fred Jones"
               />

@@ -70,6 +70,7 @@ public class NewLunchActivity extends ActionBarActivity {
             lunchTime.add(Calendar.MINUTE, minutesToAdd); // Does roll over for you
         }
 
+
         // ============= Setup list of guests =============
         if (!isEdit) {
             friendsNames = prevIntent.getStringArrayListExtra("invitedFriendsArray");
@@ -389,10 +390,17 @@ public class NewLunchActivity extends ActionBarActivity {
     private class InvitedFriendsAdapter extends ArrayAdapter<String> {
         private final LayoutInflater inflater;
         private static final int RESOURCE = R.layout.invited_friends;
+        private Hashtable<String, Integer> nameToPicture;
 
         public InvitedFriendsAdapter(List<String> names) {
             super(getApplicationContext(), RESOURCE, names);
             inflater = getLayoutInflater();
+            nameToPicture = new Hashtable<String, Integer>();
+            nameToPicture.put("Lexi", R.drawable.lexi);
+            nameToPicture.put("Avi", R.drawable.avi);
+            nameToPicture.put("Colorado", R.drawable.colorado);
+            nameToPicture.put("Danny", R.drawable.danny);
+            nameToPicture.put("Daniel", R.drawable.daniel);
         }
 
         @Override
@@ -415,7 +423,7 @@ public class NewLunchActivity extends ActionBarActivity {
                 }
             });
             nameField.setText(name);
-
+            nameField.setCompoundDrawablesWithIntrinsicBounds(nameToPicture.get(name), 0, 0, 0);
             return view;
         }
     }
