@@ -51,7 +51,7 @@ public class Lunch implements Parcelable, Serializable {
         return location;
     }
 
-    public void setLocation(String locahtion) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
