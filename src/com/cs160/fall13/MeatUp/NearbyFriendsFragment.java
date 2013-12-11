@@ -203,7 +203,8 @@ public class NearbyFriendsFragment extends Fragment {
                     String location = data.getStringExtra("location");
                     Calendar time = (Calendar) data.getSerializableExtra("lunch_time");
                     ArrayList<String> attendees = data.getStringArrayListExtra("invited_friends");
-                    Lunch lunch = new Lunch(time, location);
+                    int id = data.getIntExtra("lunch_id", 1);
+                    Lunch lunch = new Lunch(time, location, id);
                     lunch.setAttendees(attendees);
                     ActionBarActivity activity = (ActionBarActivity) getActivity();
                     LunchesFragment lunchesFragment = null;

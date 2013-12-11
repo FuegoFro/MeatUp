@@ -45,7 +45,7 @@ public class LunchesFragment extends Fragment {
     public class LunchesAdapter extends ArrayAdapter<Lunch> {
 
         private final LayoutInflater inflater;
-        private static final int RESOURCE = R.layout.nearby_friends_list_item;
+        private static final int RESOURCE = R.layout.lunch_list_item;
 
         public LunchesAdapter(ArrayList<Lunch> objects) {
             super(getActivity(), RESOURCE, objects);

@@ -6,13 +6,31 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -25,6 +43,7 @@ public class NewLunchActivity extends ActionBarActivity {
     private boolean locationSet = false;
     Lunch lunch;
     boolean isEdit;
+    private final int MAX_FRIENDS = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -221,11 +240,15 @@ public class NewLunchActivity extends ActionBarActivity {
     }
 
     private void showAddFriendsDialog () {
-        AddFriendsDialog addFriendsDialog = new AddFriendsDialog();
-        for (int i = 0; i < friendsNames.size(); i++) {
-            addFriendsDialog.removeAlreadyInvited(friendsNames);
+        if (friendsNames.size() == MAX_FRIENDS) {
+            Toast.makeText(this, "No more friends to invite! Try adding some new friends.", Toast.LENGTH_SHORT).show();
+        } else {
+            AddFriendsDialog addFriendsDialog = new AddFriendsDialog();
+            for (int i = 0; i < friendsNames.size(); i++) {
+                addFriendsDialog.removeAlreadyInvited(friendsNames);
+            }
+            addFriendsDialog.show(getSupportFragmentManager(), "Invite More Friends");
         }
-        addFriendsDialog.show(getSupportFragmentManager(), "Invite More Friends");
     }
 
     private void setTime(int hourOfDay, int minute, TextView timeButton) {
@@ -248,6 +271,7 @@ public class NewLunchActivity extends ActionBarActivity {
                     // Require them to select a location
                     Toast.makeText(this, "Please select a location for your meet up", Toast.LENGTH_SHORT).show();
                 } else {
+                    int lunchId = (int) (Math.random() * Integer.MAX_VALUE);
                     Intent resultIntent = new Intent();
                     if (isEdit) {
                         resultIntent.putExtra("updated_lunch", lunch);
@@ -255,8 +279,14 @@ public class NewLunchActivity extends ActionBarActivity {
                         resultIntent.putExtra("lunch_time", lunchTime);
                         resultIntent.putExtra("location", selectedLocationField.getText());
                         resultIntent.putExtra("invited_friends", friendsNames);
+                        resultIntent.putExtra("lunch_id", lunchId);
                     }
                     setResult(Activity.RESULT_OK, resultIntent);
+                    HttpAsyncTask httpAsyncTask = new HttpAsyncTask();
+                    lunch = new Lunch(lunchTime, selectedLocationField.getText().toString(), lunchId);
+                    lunch.setAttendees(friendsNames);
+                    httpAsyncTask.lunch = lunch;
+                    httpAsyncTask.execute("http://10.10.81.102:5000/new_or_edit_lunch");
                     finish();
                 }
                 // Falls-through
@@ -283,6 +313,72 @@ public class NewLunchActivity extends ActionBarActivity {
                 break;
             }
         }
+    }
+
+    public static String POST(String url, Lunch data){
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(url);
+        try {
+            // Add your data
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < data.getAttendees().size(); i++) {
+                sb.append(data.getAttendees().get(i) + "_");
+            }
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("location", data.getLocation()));
+            nameValuePairs.add(new BasicNameValuePair("attendees", sb.toString()));
+            nameValuePairs.add(new BasicNameValuePair("time", Long.toString((data.getTime().getTimeInMillis()))));
+            nameValuePairs.add(new BasicNameValuePair("id", Integer.toString(data.getId())));
+            nameValuePairs.add(new BasicNameValuePair("identifier", "5626122483"));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
+            return response.toString();
+        } catch (ClientProtocolException e) {
+            return "Error";
+        } catch (IOException e) {
+            return "Error";
+        }
+    }
+
+    public boolean isConnected(){
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
+
+
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+
+        Lunch lunch;
+
+        @Override
+        protected String doInBackground(String... urls) {
+            Log.e("asdf", "do in background");
+            return POST(urls[0], lunch);
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+        return result;
+
     }
 
     private void setTimeField(TextView timeField, Calendar calendar) {

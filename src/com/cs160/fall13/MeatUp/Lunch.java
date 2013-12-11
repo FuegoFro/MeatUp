@@ -15,7 +15,7 @@ public class Lunch implements Parcelable {
     public Lunch (Calendar time, String location) {
         this.time = time;
         this.location = location;
-        this.id = (int) Math.random() * Integer.MAX_VALUE;
+        this.id = (int) (Math.random() * Integer.MAX_VALUE);
     }
 
     public Lunch (Calendar time, String location, int id) {
