@@ -14,6 +14,7 @@ import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Hashtable;
 
 public class NearbyFriendsFragment extends Fragment {
     private ListView friendsList;
@@ -157,10 +158,17 @@ public class NearbyFriendsFragment extends Fragment {
 
         private final LayoutInflater inflater;
         private static final int RESOURCE = R.layout.nearby_friends_list_item;
+        private Hashtable<String, Integer> nameToPicture;
 
         public NearbyFriendsAdapter(NearbyFriend[] objects) {
             super(getActivity(), RESOURCE, objects);
             inflater = getActivity().getLayoutInflater();
+            nameToPicture = new Hashtable<String, Integer>();
+            nameToPicture.put("Lexi", R.drawable.lexi);
+            nameToPicture.put("Avi", R.drawable.avi);
+            nameToPicture.put("Colorado", R.drawable.colorado);
+            nameToPicture.put("Danny", R.drawable.danny);
+            nameToPicture.put("Daniel", R.drawable.daniel);
         }
 
         @Override
@@ -178,7 +186,7 @@ public class NearbyFriendsFragment extends Fragment {
             NearbyFriend friend = getItem(position);
             name.setText(friend.getName());
             dist.setText(friend.getDistance());
-
+            name.setCompoundDrawablesWithIntrinsicBounds(nameToPicture.get(friend.getName()), 0, 0, 0);
             return view;
         }
     }
@@ -203,20 +211,12 @@ public class NearbyFriendsFragment extends Fragment {
                     String location = data.getStringExtra("location");
                     Calendar time = (Calendar) data.getSerializableExtra("lunch_time");
                     ArrayList<String> attendees = data.getStringArrayListExtra("invited_friends");
-                    Lunch lunch = new Lunch(time, location);
-                    lunch.setAttendees(attendees);
-                    ActionBarActivity activity = (ActionBarActivity) getActivity();
-                    LunchesFragment lunchesFragment = null;
-                    for (Fragment fragment : activity.getSupportFragmentManager().getFragments()) {
-                        if (fragment instanceof LunchesFragment) {
-                            lunchesFragment = (LunchesFragment) fragment;
-                        }
-                    }
-                    if (lunchesFragment != null) {
-                        ActionBar actionBar = activity.getSupportActionBar();
-                        actionBar.getTabAt(1).select();
-                        lunchesFragment.addLunch(lunch);
-                    }
+                    int id = data.getIntExtra("lunch_id", 1);
+
+                    LunchManager.addLunch(getActivity(), new Lunch(time, location, attendees, id));
+
+                    MainTabsActivity activity = (MainTabsActivity) getActivity();
+                    activity.getSupportActionBar().getTabAt(1).select();
 
                     Toast.makeText(getActivity(), "Invite Sent!", Toast.LENGTH_LONG).show();
                 }
