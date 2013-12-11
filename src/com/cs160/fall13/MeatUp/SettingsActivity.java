@@ -1,8 +1,11 @@
 package com.cs160.fall13.MeatUp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -13,9 +16,11 @@ public class SettingsActivity extends ActionBarActivity {
     private static final String APP_PREFERENCES = "meatup_app_preferences";
     private static final String LUNCH_START_KEY = "meatup_preference_lunch_start";
     private static final String LUNCH_END_KEY = "meatup_preference_lunch_end";
+    private static final String IS_VEGETARIAN = "meatup_preference_vegetarian";
     private Calendar startTime;
     private Calendar endTime;
     private SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mma");
+    private CheckBox vegToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,25 @@ public class SettingsActivity extends ActionBarActivity {
                 saveTimePreferences();
             }
         });
+
+        //============== Track vegetarian preferences =======================
+        vegToggle = (CheckBox) findViewById(R.id.vegetarian_toggle);
+        boolean veg = prefs.getBoolean(IS_VEGETARIAN, false);
+        vegToggle.setChecked(veg);
+        vegToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveVegPreferences();
+            }
+        });
+    }
+
+    private void saveVegPreferences() {
+        boolean isVeg = vegToggle.isChecked();
+        getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
+                .edit()
+                .putBoolean(IS_VEGETARIAN, isVeg)
+                .commit();
     }
 
     private void saveTimePreferences() {
