@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,21 +21,19 @@ public class LunchesFragment extends Fragment {
 
     private LunchesAdapter adapter;
     private static final int EDIT_LUNCH = 9001;
-    private int indexEdited;
-    private ListView plannedLunches;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.e("#######", "LunchesFragment onCreateView");
         View root = inflater.inflate(R.layout.lunches, container, false);
 
-        plannedLunches = (ListView) root.findViewById(R.id.planned_lunches);
+        ListView plannedLunches = (ListView) root.findViewById(R.id.planned_lunches);
         adapter = new LunchesAdapter(new ArrayList<Lunch>());
         plannedLunches.setAdapter(adapter);
-        plannedLunches.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        plannedLunches.setChoiceMode(ListView.CHOICE_MODE_NONE);
         View noLunchesText = root.findViewById(R.id.no_lunches_text);
         plannedLunches.setEmptyView(noLunchesText);
+        plannedLunches.setSelector(R.drawable.abc_list_selector_holo_dark);
 
         refreshLunches();
 
@@ -46,7 +43,6 @@ public class LunchesFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Log.e("#######", "LunchesFragment setUserVisibleHint: " + isVisibleToUser);
         if (isVisibleToUser) {
             // Basically onResume - comes back into view
             refreshLunches();
@@ -113,7 +109,6 @@ public class LunchesFragment extends Fragment {
             TextView time = (TextView) view.findViewById(R.id.friend_distance);
             // final variables declared so they can be accessed in the view's onClick
             final Lunch lunch = getItem(position);
-            final int listIndex = position;
             Calendar lunchTime = lunch.getTime();
             location.setText(lunch.getLocation());
 
@@ -137,7 +132,6 @@ public class LunchesFragment extends Fragment {
                     Intent editLunchIntent = new Intent(getActivity(), NewLunchActivity.class);
                     editLunchIntent.putExtra("isEdit", true);
                     editLunchIntent.putExtra("lunch", (Parcelable) lunch);
-                    indexEdited = listIndex;
                     startActivityForResult(editLunchIntent, EDIT_LUNCH);
                 }
             });
@@ -153,13 +147,8 @@ public class LunchesFragment extends Fragment {
                 if (resultCode == Activity.RESULT_OK) {
                     //update the list item with the new lunch
                     Lunch updatedLunch = data.getParcelableExtra("updated_lunch");
-                    Lunch oldLunch = adapter.getItem(indexEdited);
-                    adapter.remove(oldLunch);
-                    adapter.insert(updatedLunch, indexEdited);
-                    for (int i = 0; i < adapter.getCount(); i++) {
-                        plannedLunches.setItemChecked(i, false); // uncheck selection
-                    }
-                    indexEdited = -5;
+                    LunchManager.addLunch(getActivity(), updatedLunch);
+                    refreshLunches();
                 }
                 break;
             }

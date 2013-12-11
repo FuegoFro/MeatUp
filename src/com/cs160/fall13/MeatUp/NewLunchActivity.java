@@ -11,7 +11,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.*;
@@ -22,10 +22,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -275,7 +273,7 @@ public class NewLunchActivity extends ActionBarActivity {
                     int lunchId = (int) (Math.random() * Integer.MAX_VALUE);
                     Intent resultIntent = new Intent();
                     if (isEdit) {
-                        resultIntent.putExtra("updated_lunch", lunch);
+                        resultIntent.putExtra("updated_lunch", (Parcelable) lunch);
                     } else {
                         resultIntent.putExtra("lunch_time", lunchTime);
                         resultIntent.putExtra("location", selectedLocationField.getText());
@@ -284,8 +282,7 @@ public class NewLunchActivity extends ActionBarActivity {
                     }
                     setResult(Activity.RESULT_OK, resultIntent);
                     HttpAsyncTask httpAsyncTask = new HttpAsyncTask();
-                    lunch = new Lunch(lunchTime, selectedLocationField.getText().toString(), lunchId);
-                    lunch.setAttendees(friendsNames);
+                    lunch = new Lunch(lunchTime, selectedLocationField.getText().toString(), friendsNames, lunchId);
                     httpAsyncTask.lunch = lunch;
                     httpAsyncTask.execute("http://10.10.81.102:5000/new_or_edit_lunch");
                     finish();
