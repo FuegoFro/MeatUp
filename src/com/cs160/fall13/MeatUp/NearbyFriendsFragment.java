@@ -203,20 +203,11 @@ public class NearbyFriendsFragment extends Fragment {
                     String location = data.getStringExtra("location");
                     Calendar time = (Calendar) data.getSerializableExtra("lunch_time");
                     ArrayList<String> attendees = data.getStringArrayListExtra("invited_friends");
-                    Lunch lunch = new Lunch(time, location);
-                    lunch.setAttendees(attendees);
-                    ActionBarActivity activity = (ActionBarActivity) getActivity();
-                    LunchesFragment lunchesFragment = null;
-                    for (Fragment fragment : activity.getSupportFragmentManager().getFragments()) {
-                        if (fragment instanceof LunchesFragment) {
-                            lunchesFragment = (LunchesFragment) fragment;
-                        }
-                    }
-                    if (lunchesFragment != null) {
-                        ActionBar actionBar = activity.getSupportActionBar();
-                        actionBar.getTabAt(1).select();
-                        lunchesFragment.addLunch(lunch);
-                    }
+
+                    LunchManager.addLunch(getActivity(), new Lunch(time, location, attendees));
+
+                    MainTabsActivity activity = (MainTabsActivity) getActivity();
+                    activity.getSupportActionBar().getTabAt(1).select();
 
                     Toast.makeText(getActivity(), "Invite Sent!", Toast.LENGTH_LONG).show();
                 }

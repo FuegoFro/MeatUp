@@ -1,18 +1,22 @@
 package com.cs160.fall13.MeatUp;
+
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.*;
 
 public class LunchesFragment extends Fragment {
 
@@ -24,6 +28,7 @@ public class LunchesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        Log.e("#######", "LunchesFragment onCreateView");
         View root = inflater.inflate(R.layout.lunches, container, false);
 
         plannedLunches = (ListView) root.findViewById(R.id.planned_lunches);
@@ -33,14 +38,56 @@ public class LunchesFragment extends Fragment {
         View noLunchesText = root.findViewById(R.id.no_lunches_text);
         plannedLunches.setEmptyView(noLunchesText);
 
+        refreshLunches();
+
         return root;
     }
 
-    public void addLunch(Lunch lunch) {
-        adapter.add(lunch);
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.e("#######", "LunchesFragment setUserVisibleHint: " + isVisibleToUser);
+        if (isVisibleToUser) {
+            // Basically onResume - comes back into view
+            refreshLunches();
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(PollService.NOTIFICATION_ID);
+        }
     }
 
+    private void refreshLunches() {
+        // No point in doing any of this if we don't have an adapter yet
+        if (adapter == null) {
+            return;
+        }
 
+        // Each time, get and display sorted list of lunches
+        // Remove any lunches that are in the past
+        Context ctx = getActivity();
+        List<Lunch> allLunches = LunchManager.getLunches(ctx);
+        List<Lunch> lunches = new ArrayList<Lunch>();
+        Calendar now = Calendar.getInstance();
+        for (Lunch lunch : allLunches) {
+            if (now.compareTo(lunch.getTime()) >= 0) {
+                // The lunch is in the past
+                LunchManager.removeLunch(ctx, lunch.getId());
+            } else {
+                lunches.add(lunch);
+            }
+        }
+
+        Collections.sort(lunches, new Comparator<Lunch>() {
+            @Override
+            public int compare(Lunch lhs, Lunch rhs) {
+                return lhs.getTime().compareTo(rhs.getTime());
+            }
+        });
+        adapter.clear();
+        for (Lunch lunch : lunches) {
+            adapter.add(lunch);
+        }
+        adapter.notifyDataSetChanged();
+    }
 
     public class LunchesAdapter extends ArrayAdapter<Lunch> {
 
@@ -89,7 +136,7 @@ public class LunchesFragment extends Fragment {
                 public void onClick(View view) {
                     Intent editLunchIntent = new Intent(getActivity(), NewLunchActivity.class);
                     editLunchIntent.putExtra("isEdit", true);
-                    editLunchIntent.putExtra("lunch", lunch);
+                    editLunchIntent.putExtra("lunch", (Parcelable) lunch);
                     indexEdited = listIndex;
                     startActivityForResult(editLunchIntent, EDIT_LUNCH);
                 }
@@ -109,7 +156,7 @@ public class LunchesFragment extends Fragment {
                     Lunch oldLunch = adapter.getItem(indexEdited);
                     adapter.remove(oldLunch);
                     adapter.insert(updatedLunch, indexEdited);
-                    for (int i = 0; i < plannedLunches.getAdapter().getCount(); i++) {
+                    for (int i = 0; i < adapter.getCount(); i++) {
                         plannedLunches.setItemChecked(i, false); // uncheck selection
                     }
                     indexEdited = -5;
@@ -117,7 +164,6 @@ public class LunchesFragment extends Fragment {
                 break;
             }
         }
-
-
     }
+
 }

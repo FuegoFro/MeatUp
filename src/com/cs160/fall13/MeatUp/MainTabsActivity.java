@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 public class MainTabsActivity extends ActionBarActivity {
 
+    public static final String SWITCH_TO_LUNCH_TAB = "switch to lunch tab";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +20,31 @@ public class MainTabsActivity extends ActionBarActivity {
                 new String[]{"Nearby Friends", "Lunches"},
                 this
         );
+
+        handleStartingIntent(getIntent());
+
+        // Start server polling in background for 'instant' updating
+        Intent intent = new Intent(this, PollService.class);
+        startService(intent);
+    }
+
+    private void handleStartingIntent(Intent intent) {
+        if (intent.getBooleanExtra(SWITCH_TO_LUNCH_TAB, false)) {
+            getSupportActionBar().getTabAt(1).select();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(this, PollService.class);
+        stopService(intent);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleStartingIntent(intent);
     }
 
     @Override

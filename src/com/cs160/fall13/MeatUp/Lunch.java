@@ -2,33 +2,49 @@ package com.cs160.fall13.MeatUp;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import java.util.ArrayList;
-import java.util.Calendar;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Lunch implements Parcelable {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Random;
+
+public class Lunch implements Parcelable, Serializable {
 
     private Calendar time;
     private String location;
     private ArrayList<String> attendees = new ArrayList<String>();
     private int id;
 
-    public Lunch (Calendar time, String location) {
-        this.time = time;
-        this.location = location;
-        this.id = (int) Math.random() * Integer.MAX_VALUE;
+    public Lunch() {
+        id = new Random().nextInt();
+    } // Default constructor for Jackson
+
+    public Lunch (Calendar time, String location, ArrayList<String> attendees) {
+        this(time, location, attendees, new Random().nextInt());
     }
 
-    public Lunch (Calendar time, String location, int id) {
+    public Lunch (Calendar time, String location, ArrayList<String> attendees, int id) {
         this.time = time;
         this.location = location;
+        this.attendees = attendees;
         this.id = id;
     }
     public Calendar getTime() {
         return time;
     }
 
+    @JsonIgnore
     public void setTime(Calendar time) {
         this.time = time;
+    }
+
+    @JsonProperty("time")
+    public void setTime(long milliseconds) {
+        time = Calendar.getInstance();
+        time.setTimeInMillis(milliseconds);
     }
 
     public String getLocation() {
@@ -43,6 +59,7 @@ public class Lunch implements Parcelable {
         return attendees;
     }
 
+    @JsonIgnore
     public void setAttendees(ArrayList<String> attendees) {
         this.attendees = attendees;
     }
@@ -51,9 +68,14 @@ public class Lunch implements Parcelable {
         return id;
     }
 
+    @JsonProperty("attendees")
+    public void setAttendees(String[] attendees) {
+        this.attendees = new ArrayList<String>(Arrays.asList(attendees));
+    }
+
     @Override
     public int describeContents() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 
     public static final Parcelable.Creator<Lunch> CREATOR = new Parcelable.Creator<Lunch>() {
@@ -63,7 +85,7 @@ public class Lunch implements Parcelable {
 
         @Override
         public Lunch[] newArray(int i) {
-            return new Lunch[i];  //To change body of implemented methods use File | Settings | File Templates.
+            return new Lunch[i];
         }
     };
 
