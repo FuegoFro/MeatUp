@@ -13,6 +13,7 @@ import android.view.*;
 import android.widget.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Hashtable;
 
@@ -42,7 +43,18 @@ public class NearbyFriendsFragment extends Fragment {
                 new NearbyFriend("Danny", "5 - 10 mi"),
                 new NearbyFriend("Lexi", "5 - 10 mi"),
                 new NearbyFriend("Daniel", "10 - 15 mi"),
+                new NearbyFriend("David", "< 1 mi"),
+                new NearbyFriend("Christian", "< 1 mi")
         };
+
+        //remove yourself from the list, this line must be the same as in the instantaition above
+        final NearbyFriend you = friends[6];
+        ArrayList<NearbyFriend> friendsArrayList = new ArrayList<NearbyFriend>(Arrays.asList(friends));
+        friendsArrayList.remove(you);
+        friends = new NearbyFriend[friendsArrayList.size()];
+        for (int i = 0; i < friends.length; i++) {
+            friends[i] = friendsArrayList.get(i);
+        }
 
         View root = inflater.inflate(R.layout.nearby_friends, container, false);
         friendsList = (ListView) root.findViewById(R.id.friends_list);
@@ -171,6 +183,7 @@ public class NearbyFriendsFragment extends Fragment {
             nameToPicture.put("Danny", R.drawable.danny);
             nameToPicture.put("Daniel", R.drawable.daniel);
             nameToPicture.put("David", R.drawable.david);
+            nameToPicture.put("Christian", R.drawable.christian);
         }
 
         @Override
