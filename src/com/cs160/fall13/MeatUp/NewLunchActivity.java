@@ -385,6 +385,7 @@ public class NewLunchActivity extends ActionBarActivity {
             nameToPicture.put("Danny", R.drawable.danny);
             nameToPicture.put("Daniel", R.drawable.daniel);
             nameToPicture.put("David", R.drawable.david);
+            nameToPicture.put("Christian", R.drawable.christian);
         }
 
         @Override

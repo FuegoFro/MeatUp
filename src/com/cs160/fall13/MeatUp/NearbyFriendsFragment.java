@@ -37,14 +37,14 @@ public class NearbyFriendsFragment extends Fragment {
 
         // Hardcoded list of nearby friends for now
         NearbyFriend[] friends = new NearbyFriend[]{
-                new NearbyFriend("David", "< 5 mi"),
+                new NearbyFriend("Christian", "< 1 mi"),
+                new NearbyFriend("David", "< 1 mi"),
                 new NearbyFriend("Colorado", "< 5 mi"),
                 new NearbyFriend("Avi", "< 5 mi"),
                 new NearbyFriend("Danny", "5 - 10 mi"),
                 new NearbyFriend("Lexi", "5 - 10 mi"),
                 new NearbyFriend("Daniel", "10 - 15 mi"),
                 new NearbyFriend("David", "< 1 mi"),
-                new NearbyFriend("Christian", "< 1 mi")
         };
 
         //remove yourself from the list, this line must be the same as in the instantaition above
